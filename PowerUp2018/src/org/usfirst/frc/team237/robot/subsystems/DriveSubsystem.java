@@ -28,7 +28,10 @@ public class DriveSubsystem extends Subsystem
 	private TalonSRX rightDriveSlave3 = new TalonSRX(RobotMap.driveTalon8);
 	private AHRS gyro = new AHRS(SerialPort.Port.kUSB, AHRS.SerialDataType.kProcessedData, (byte) 200);
     
-
+	public DriveSubsystem()
+	{
+		
+	}
     public void initDefaultCommand() 
     {
         // Set the default command for a subsystem here.
