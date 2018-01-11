@@ -1,5 +1,9 @@
 package org.usfirst.frc.team237.robot.subsystems;
 
+import org.usfirst.frc.team237.robot.RobotMap;
+
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
