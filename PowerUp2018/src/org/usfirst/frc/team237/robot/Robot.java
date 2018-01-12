@@ -8,6 +8,8 @@
 
 package org.usfirst.frc.team237.robot;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,7 +27,10 @@ public class Robot extends TimedRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 
-	
+	private WPI_TalonSRX test1 = new WPI_TalonSRX(RobotMap.driveTalon1);
+	private WPI_TalonSRX test2 = new WPI_TalonSRX(RobotMap.driveTalon2);
+	private WPI_TalonSRX test3 = new WPI_TalonSRX(RobotMap.driveTalon3);
+	private WPI_TalonSRX test4 = new WPI_TalonSRX(RobotMap.driveTalon4);
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -77,13 +82,20 @@ public class Robot extends TimedRobot {
 	 * This function is called periodically during operator control.
 	 */
 	@Override
-	public void teleopPeriodic() {
+	public void teleopPeriodic() 
+	{
+		test1.set(1);
+		test2.set(1);
+		test3.set(1);
+		test4.set(1);
 	}
 
 	/**
 	 * This function is called periodically during test mode.
 	 */
 	@Override
-	public void testPeriodic() {
+	public void testPeriodic() 
+	{
+	
 	}
 }
