@@ -28,10 +28,6 @@ public class Robot extends TimedRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 
-	private WPI_TalonSRX test1 = new WPI_TalonSRX(RobotMap.driveTalon1);
-	private WPI_TalonSRX test2 = new WPI_TalonSRX(RobotMap.driveTalon2);
-	private WPI_TalonSRX test3 = new WPI_TalonSRX(RobotMap.driveTalon3);
-	private WPI_TalonSRX test4 = new WPI_TalonSRX(RobotMap.driveTalon4);
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -41,7 +37,7 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
-		//hi
+		
 	}
 
 	/**
@@ -85,12 +81,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() 
 	{
-		test1.set(ControlMode.PercentOutput, 1);
-		test2.set(ControlMode.Follower, 1);
-		test1.set(1);
-		test2.set(1);
-		test3.set(1);
-		test4.set(1);
+		
 	}
 
 	/**
