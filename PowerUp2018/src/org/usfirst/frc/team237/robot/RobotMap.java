@@ -10,6 +10,7 @@ public class RobotMap
 	public static int intake1 = 9;
 	public static int intake2 = 10;
 	public static int elevator1 = 11;
+	
 	public static int climber = 12;
 	
 	public static double deadband = 0.1;

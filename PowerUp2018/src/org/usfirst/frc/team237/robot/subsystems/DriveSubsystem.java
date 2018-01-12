@@ -16,10 +16,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class DriveSubsystem extends Subsystem 
-{
-	// Put methods for controlling this subsystem
-    // here. Call these from Commands.
-	
+{	
 	private WPI_TalonSRX leftDrive = new WPI_TalonSRX(RobotMap.driveTalon1);
 	private WPI_TalonSRX leftDriveSlave = new WPI_TalonSRX(RobotMap.driveTalon2);
 	private WPI_TalonSRX rightDrive = new WPI_TalonSRX(RobotMap.driveTalon3);
@@ -34,7 +31,6 @@ public class DriveSubsystem extends Subsystem
 		rightDriveSlave.set(ControlMode.Follower, 0);
 		
 		gyro.reset();
-		
 	}
 	
 	public void setDrives(double x, double y)
@@ -79,7 +75,6 @@ public class DriveSubsystem extends Subsystem
 			
 			leftDrive.set(normalLeft);
 			rightDrive.set(normalRight);
-		
 	}
 	
 	double sgn(double x)

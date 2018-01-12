@@ -22,7 +22,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the build.properties file in the
  * project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends TimedRobot 
+{
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
@@ -33,11 +34,11 @@ public class Robot extends TimedRobot {
 	 * used for any initialization code.
 	 */
 	@Override
-	public void robotInit() {
+	public void robotInit() 
+	{
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
-		
 	}
 
 	/**
@@ -52,7 +53,8 @@ public class Robot extends TimedRobot {
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
 	@Override
-	public void autonomousInit() {
+	public void autonomousInit() 
+	{
 		m_autoSelected = m_chooser.getSelected();
 		// m_autoSelected = SmartDashboard.getString("Auto Selector",
 		// 		kDefaultAuto);
@@ -63,8 +65,10 @@ public class Robot extends TimedRobot {
 	 * This function is called periodically during autonomous.
 	 */
 	@Override
-	public void autonomousPeriodic() {
-		switch (m_autoSelected) {
+	public void autonomousPeriodic() 
+	{
+		switch (m_autoSelected) 
+		{
 			case kCustomAuto:
 				// Put custom auto code here
 				break;
