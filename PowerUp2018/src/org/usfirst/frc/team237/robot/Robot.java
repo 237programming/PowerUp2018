@@ -8,6 +8,7 @@
 
 package org.usfirst.frc.team237.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -84,6 +85,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() 
 	{
+		test1.set(ControlMode.PercentOutput, 1);
+		test2.set(ControlMode.Follower, 1);
 		test1.set(1);
 		test2.set(1);
 		test3.set(1);
