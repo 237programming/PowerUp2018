@@ -8,6 +8,8 @@
 
 package org.usfirst.frc.team237.robot;
 
+import org.usfirst.frc.team237.robot.subsystems.DriveSubsystem;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -24,6 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot 
 {
+	public static DriveSubsystem driveTrain = new DriveSubsystem();
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
@@ -85,6 +88,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopPeriodic() 
 	{
+		driveTrain.setDrives(OI.drivejoystick.getX(),OI.drivejoystick.getY());
 		
 	}
 
