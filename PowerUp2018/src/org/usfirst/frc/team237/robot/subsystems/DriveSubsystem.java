@@ -26,9 +26,9 @@ public class DriveSubsystem extends Subsystem
 	public DriveSubsystem()
 	{
 		leftDrive.set(ControlMode.PercentOutput, 0);
-		leftDriveSlave.set(ControlMode.Follower, 0);
+		leftDriveSlave.set(ControlMode.Follower, 1);
 		rightDrive.set(ControlMode.PercentOutput, 0);
-		rightDriveSlave.set(ControlMode.Follower, 0);
+		rightDriveSlave.set(ControlMode.Follower, 3);
 		
 		gyro.reset();
 	}
