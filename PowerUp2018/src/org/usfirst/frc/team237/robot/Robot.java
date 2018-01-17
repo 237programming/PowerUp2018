@@ -100,4 +100,8 @@ public class Robot extends TimedRobot
 	{
 	
 	}
+	/*
+	 * Location of color plate data=
+	 * http://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/826278-2018-game-data-details
+	 */
 }
