@@ -88,7 +88,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopPeriodic() 
 	{
-		driveTrain.setDrives(OI.drivejoystick.getX(),OI.drivejoystick.getY());
+		driveTrain.setDrives(OI.driveJoystick.getX(),OI.driveJoystick.getY());
 		
 	}
 
