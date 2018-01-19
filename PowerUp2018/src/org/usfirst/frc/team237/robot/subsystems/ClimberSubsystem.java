@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class ClimberSubsystem extends Subsystem 
 {
 	private WPI_TalonSRX climbMotor = new WPI_TalonSRX(RobotMap.climber);
-	private Compressor compressor = new Compressor();
+	private Compressor compressor = new Compressor(51);
 	
     public void initDefaultCommand() 
     {

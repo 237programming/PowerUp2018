@@ -36,7 +36,7 @@ public class DriveSubsystem extends Subsystem
 	public void setDrives(double x, double y)
 	{
 			x = Math.abs(x) > 0.1 ? x : 0;
-			y = Math.abs(y) > 0.1 ? x : 0;
+			y = Math.abs(y) > 0.1 ? y : 0;
 			
 			if(x != 0)
 			{
