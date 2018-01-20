@@ -82,6 +82,21 @@ public class DriveSubsystem extends Subsystem
 		return x/Math.abs(x);
 	}
 	
+	public int getEncPos()
+	{
+		
+		int leftEnc = leftDrive.getSelectedSensorPosition(0);
+		int rightEnc = rightDrive.getSelectedSensorPosition(0);
+		double position = (leftEnc + rightEnc)/2;
+	}
+	
+	public void zeroEnc()
+	{
+		leftDrive.setSelectedSensorPosition(0, 0, 0);
+		rightDrive.setSelectedSensorPosition(0, 0, 0);
+	}
+	
+	
     public void initDefaultCommand() 
     {
         // Set the default command for a subsystem here.
