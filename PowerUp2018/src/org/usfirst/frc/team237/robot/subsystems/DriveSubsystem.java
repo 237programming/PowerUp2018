@@ -82,12 +82,12 @@ public class DriveSubsystem extends Subsystem
 		return x/Math.abs(x);
 	}
 	
-	public int getEncPos()
+	public double getEncPos()
 	{
-		
 		int leftEnc = leftDrive.getSelectedSensorPosition(0);
 		int rightEnc = rightDrive.getSelectedSensorPosition(0);
 		double position = (leftEnc + rightEnc)/2;
+		return position;
 	}
 	
 	public void zeroEnc()
