@@ -9,6 +9,7 @@
 package org.usfirst.frc.team237.robot;
 
 import org.usfirst.frc.team237.robot.subsystems.ClimberSubsystem;
+import org.usfirst.frc.team237.robot.subsystems.CubeHandlerSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.DriveSubsystem;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -30,6 +31,7 @@ public class Robot extends TimedRobot
 {
 	public static DriveSubsystem driveTrain = new DriveSubsystem();
 	public static ClimberSubsystem climber = new ClimberSubsystem();
+	public static CubeHandlerSubsystem cubeHandler = new CubeHandlerSubsystem();
 	public static PowerDistributionPanel PDP = new PowerDistributionPanel(50);
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";

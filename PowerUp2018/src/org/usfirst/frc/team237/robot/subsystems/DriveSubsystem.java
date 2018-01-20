@@ -90,6 +90,17 @@ public class DriveSubsystem extends Subsystem
 		return position;
 	}
 	
+	public double getYaw()
+	{
+		double realYaw = gyro.getYaw();
+		return realYaw;
+	}
+	
+	public void zeroYaw()
+	{
+		gyro.zeroYaw();
+	}
+	
 	public void zeroEnc()
 	{
 		leftDrive.setSelectedSensorPosition(0, 0, 0);
