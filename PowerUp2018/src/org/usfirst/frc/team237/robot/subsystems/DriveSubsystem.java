@@ -48,8 +48,8 @@ public class DriveSubsystem extends Subsystem
 				y = sgn(y) * ((Math.abs(y) - RobotMap.deadband) / (1 - RobotMap.deadband));
 			}
 			
-			double left = y + x;
-			double right = (y - x) * -1;
+			double right = y + x;
+			double left = (y - x) * -1;
 			double absLeft = Math.abs(left);
 			double absRight = Math.abs(right);
 			double normalLeft;
