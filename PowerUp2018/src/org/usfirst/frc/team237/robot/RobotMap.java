@@ -13,7 +13,7 @@ public class RobotMap
 	
 	public static int climber = 12;
 	
-	public static double deadband = 0.1;
+	public static double deadband = 0.2;
 	
 	
 
