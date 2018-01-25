@@ -10,6 +10,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -105,6 +106,14 @@ public class DriveSubsystem extends Subsystem
 	{
 		leftDrive.setSelectedSensorPosition(0, 0, 0);
 		rightDrive.setSelectedSensorPosition(0, 0, 0);
+	}
+	
+	public void post()
+	{
+		SmartDashboard.putNumber("Right Drive", rightDrive.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Left Drive", leftDrive.getSelectedSensorPosition(0));
+		
+		
 	}
 	
 	
