@@ -32,6 +32,8 @@ public class DriveSubsystem extends Subsystem
 		rightDriveSlave.set(ControlMode.Follower, 3);
 		
 		gyro.reset();
+		
+		leftDrive.setSensorPhase(true);
 	}
 	
 	public void setDrives(double x, double y)
@@ -112,11 +114,8 @@ public class DriveSubsystem extends Subsystem
 	{
 		SmartDashboard.putNumber("Right Drive", rightDrive.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("Left Drive", leftDrive.getSelectedSensorPosition(0));
-		
-		
 	}
-	
-	
+
     public void initDefaultCommand() 
     {
         // Set the default command for a subsystem here.
