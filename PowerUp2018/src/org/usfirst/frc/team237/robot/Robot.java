@@ -48,6 +48,7 @@ public class Robot extends TimedRobot
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
+		driveTrain.zeroEnc();
 	}
 
 	/**
@@ -96,6 +97,7 @@ public class Robot extends TimedRobot
 	{
 		driveTrain.setDrives(OI.driveJoystick.getY(),OI.driveJoystick.getX());
 		
+		driveTrain.post();
 	}
 
 	/**
