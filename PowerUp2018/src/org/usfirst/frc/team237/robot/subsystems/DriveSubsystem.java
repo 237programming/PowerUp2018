@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.SPI;
 
 /**
  *
@@ -22,7 +22,8 @@ public class DriveSubsystem extends Subsystem
 	private WPI_TalonSRX leftDriveSlave = new WPI_TalonSRX(RobotMap.driveTalon2);
 	private WPI_TalonSRX rightDrive = new WPI_TalonSRX(RobotMap.driveTalon3);
 	private WPI_TalonSRX rightDriveSlave = new WPI_TalonSRX(RobotMap.driveTalon4);
-	private AHRS gyro = new AHRS(SerialPort.Port.kUSB, AHRS.SerialDataType.kProcessedData, (byte) 200);
+//	private AHRS gyro = new AHRS(SerialPort.Port.kUSB, AHRS.SerialDataType.kProcessedData, (byte) 200);
+	private AHRS gyro = new AHRS(SPI.Port.kMXP);
     
 	public DriveSubsystem()
 	{
@@ -114,6 +115,7 @@ public class DriveSubsystem extends Subsystem
 	{
 		SmartDashboard.putNumber("Right Drive", rightDrive.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("Left Drive", leftDrive.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Gyro Yaw", getYaw());
 	}
 
     public void initDefaultCommand() 

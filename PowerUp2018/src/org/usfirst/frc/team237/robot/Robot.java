@@ -96,7 +96,6 @@ public class Robot extends TimedRobot
 	public void teleopPeriodic() 
 	{
 		driveTrain.setDrives(OI.driveJoystick.getY(),OI.driveJoystick.getX());
-		
 		driveTrain.post();
 	}
 
