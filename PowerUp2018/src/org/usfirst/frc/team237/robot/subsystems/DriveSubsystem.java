@@ -10,7 +10,8 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.SPI;
 
 /**
  *
@@ -21,21 +22,24 @@ public class DriveSubsystem extends Subsystem
 	private WPI_TalonSRX leftDriveSlave = new WPI_TalonSRX(RobotMap.driveTalon2);
 	private WPI_TalonSRX rightDrive = new WPI_TalonSRX(RobotMap.driveTalon3);
 	private WPI_TalonSRX rightDriveSlave = new WPI_TalonSRX(RobotMap.driveTalon4);
-	private AHRS gyro = new AHRS(SerialPort.Port.kUSB, AHRS.SerialDataType.kProcessedData, (byte) 200);
+//	private AHRS gyro = new AHRS(SerialPort.Port.kUSB, AHRS.SerialDataType.kProcessedData, (byte) 200);
+	private AHRS gyro = new AHRS(SPI.Port.kMXP);
     
 	public DriveSubsystem()
 	{
 		leftDrive.set(ControlMode.PercentOutput, 0);
-		leftDriveSlave.set(ControlMode.Follower, 0);
+		leftDriveSlave.set(ControlMode.Follower, 1);
 		rightDrive.set(ControlMode.PercentOutput, 0);
-		rightDriveSlave.set(ControlMode.Follower, 0);
+		rightDriveSlave.set(ControlMode.Follower, 3);
 		gyro.reset();
+		
+		leftDrive.setSensorPhase(true);
 	}
 	
 	public void setDrives(double x, double y)
 	{
 			x = Math.abs(x) > 0.1 ? x : 0;
-			y = Math.abs(y) > 0.1 ? x : 0;
+			y = Math.abs(y) > 0.1 ? y : 0;
 			
 			if(x != 0)
 			{
@@ -47,8 +51,8 @@ public class DriveSubsystem extends Subsystem
 				y = sgn(y) * ((Math.abs(y) - RobotMap.deadband) / (1 - RobotMap.deadband));
 			}
 			
-			double left = y + x;
-			double right = (y - x) * -1;
+			double right = y + x;
+			double left = (y - x) * -1;
 			double absLeft = Math.abs(left);
 			double absRight = Math.abs(right);
 			double normalLeft;
@@ -81,6 +85,38 @@ public class DriveSubsystem extends Subsystem
 		return x/Math.abs(x);
 	}
 	
+	public double getEncPos()
+	{
+		int leftEnc = leftDrive.getSelectedSensorPosition(0);
+		int rightEnc = rightDrive.getSelectedSensorPosition(0);
+		double position = (leftEnc + rightEnc)/2;
+		return position;
+	}
+	
+	public double getYaw()
+	{
+		double realYaw = gyro.getYaw();
+		return realYaw;
+	}
+	
+	public void zeroYaw()
+	{
+		gyro.zeroYaw();
+	}
+	
+	public void zeroEnc()
+	{
+		leftDrive.setSelectedSensorPosition(0, 0, 0);
+		rightDrive.setSelectedSensorPosition(0, 0, 0);
+	}
+	
+	public void post()
+	{
+		SmartDashboard.putNumber("Right Drive", rightDrive.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Left Drive", leftDrive.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Gyro Yaw", getYaw());
+	}
+
     public void initDefaultCommand() 
     {
         // Set the default command for a subsystem here.

@@ -8,10 +8,17 @@
 
 package org.usfirst.frc.team237.robot;
 
+import org.usfirst.frc.team237.robot.commands.AutonomousCenterLeft;
+import org.usfirst.frc.team237.robot.subsystems.ClimberSubsystem;
+import org.usfirst.frc.team237.robot.subsystems.CubeHandlerSubsystem;
+import org.usfirst.frc.team237.robot.subsystems.DriveSubsystem;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,10 +31,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot 
 {
-	private static final String kDefaultAuto = "Default";
-	private static final String kCustomAuto = "My Auto";
-	private String m_autoSelected;
-	private SendableChooser<String> m_chooser = new SendableChooser<>();
+	public static DriveSubsystem driveTrain = new DriveSubsystem();
+	public static ClimberSubsystem climber = new ClimberSubsystem();
+	public static CubeHandlerSubsystem cubeHandler = new CubeHandlerSubsystem();
+	public static PowerDistributionPanel PDP = new PowerDistributionPanel(50);
+//	private static final String kDefaultAuto = "Default";
+//	private static final String kCustomAuto = "My Auto";
+//	private String m_autoSelected;
+	Command autonomousCommand;
+	SendableChooser<Command> m_chooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -36,9 +48,13 @@ public class Robot extends TimedRobot
 	@Override
 	public void robotInit() 
 	{
-		m_chooser.addDefault("Default Auto", kDefaultAuto);
-		m_chooser.addObject("My Auto", kCustomAuto);
+//		m_chooser.addDefault("Default Auto", kDefaultAuto);
+//		m_chooser.addObject("My Auto", kCustomAuto);
+		m_chooser = new SendableChooser<Command>();
+		m_chooser.addDefault("Center Left", new AutonomousCenterLeft());
 		SmartDashboard.putData("Auto choices", m_chooser);
+		driveTrain.zeroEnc();
+		driveTrain.zeroYaw();
 	}
 
 	/**
@@ -55,10 +71,17 @@ public class Robot extends TimedRobot
 	@Override
 	public void autonomousInit() 
 	{
-		m_autoSelected = m_chooser.getSelected();
-		// m_autoSelected = SmartDashboard.getString("Auto Selector",
-		// 		kDefaultAuto);
-		System.out.println("Auto selected: " + m_autoSelected);
+//		m_autoSelected = m_chooser.getSelected();
+//		m_autoSelected = SmartDashboard.getString("Auto Selector",
+//		 		kDefaultAuto);
+		driveTrain.zeroYaw();
+		//autonomousCommand = (Command) m_chooser.getSelected();
+		//if(autonomousCommand != null)
+		//	autonomousCommand.start();
+		autonomousCommand = new AutonomousCenterLeft();
+		autonomousCommand.start();
+		
+//		System.out.println("Auto selected: " + m_autoSelected);
 	}
 
 	/**
@@ -67,16 +90,16 @@ public class Robot extends TimedRobot
 	@Override
 	public void autonomousPeriodic() 
 	{
-		switch (m_autoSelected) 
-		{
-			case kCustomAuto:
-				// Put custom auto code here
-				break;
-			case kDefaultAuto:
-			default:
+//		switch (m_autoSelected) 
+//		{
+//			case kCustomAuto:
+//				// Put custom auto code here
+//				break;
+//			case kDefaultAuto:
+//			default:
 				// Put default auto code here
-				break;
-		}
+//				break;
+//		}
 	}
 
 	/**
@@ -85,7 +108,8 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopPeriodic() 
 	{
-		
+		driveTrain.setDrives(OI.driveJoystick.getY(),OI.driveJoystick.getX());
+		driveTrain.post();
 	}
 
 	/**
@@ -96,4 +120,8 @@ public class Robot extends TimedRobot
 	{
 	
 	}
+	/*
+	 * Location of color plate data=
+	 * http://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/826278-2018-game-data-details
+	 */
 }
