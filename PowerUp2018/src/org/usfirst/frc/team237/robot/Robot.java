@@ -19,6 +19,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -90,6 +91,8 @@ public class Robot extends TimedRobot
 	@Override
 	public void autonomousPeriodic() 
 	{
+		Scheduler.getInstance().run();
+		driveTrain.post();
 //		switch (m_autoSelected) 
 //		{
 //			case kCustomAuto:

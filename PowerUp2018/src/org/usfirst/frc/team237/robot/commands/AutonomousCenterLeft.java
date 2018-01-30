@@ -50,9 +50,9 @@ public class AutonomousCenterLeft extends Command
     		currentState = State.firstMove;
     		break;
     	case firstMove:
-    		Robot.driveTrain.setDrives(0, .5);
+    		Robot.driveTrain.setDrives(-.3, 0);
     		Robot.driveTrain.getEncPos();
-    		if(Robot.driveTrain.getEncPos() > 20000)
+    		if(Robot.driveTrain.getEncPos() > 5000)
     		{
     			Robot.driveTrain.zeroEnc();
     			Robot.driveTrain.setDrives(0, 0);
@@ -60,9 +60,9 @@ public class AutonomousCenterLeft extends Command
     		}
     		break;
     	case firstTurn:
-    		Robot.driveTrain.setDrives(.2, .2);
+    		Robot.driveTrain.setDrives(0, -.3);
     		Robot.driveTrain.getYaw();
-    		if(Robot.driveTrain.getYaw() < -15);
+    		if(Robot.driveTrain.getYaw() < -2.0)
     		{
     			Robot.driveTrain.zeroEnc();
     			Robot.driveTrain.setDrives(0, 0);
@@ -71,9 +71,9 @@ public class AutonomousCenterLeft extends Command
     		}
     		break;
     	case secondMove:
-    		Robot.driveTrain.setDrives(0, .5);
+    		Robot.driveTrain.setDrives(-.3, 0);
     		Robot.driveTrain.getEncPos();
-    		if(Robot.driveTrain.getEncPos() > 20000)
+    		if(Robot.driveTrain.getEncPos() > 5000)
     		{
     			Robot.driveTrain.zeroEnc();
     			Robot.driveTrain.setDrives(0, 0);
@@ -81,9 +81,9 @@ public class AutonomousCenterLeft extends Command
     		}
     		break;
     	case secondTurn:
-    		Robot.driveTrain.setDrives(.2, .2);
+    		Robot.driveTrain.setDrives(0, -.3);
     		Robot.driveTrain.getYaw();
-    		if(Robot.driveTrain.getYaw() < -15);
+    		if(Robot.driveTrain.getYaw() < -2.0)
     		{
     			Robot.driveTrain.zeroEnc();
     			Robot.driveTrain.setDrives(0, 0);
@@ -92,9 +92,9 @@ public class AutonomousCenterLeft extends Command
     		}
     		break;
     	case lastMove:
-    		Robot.driveTrain.setDrives(0, .5);
+    		Robot.driveTrain.setDrives(-.3, 0);
     		Robot.driveTrain.getEncPos();
-    		if(Robot.driveTrain.getEncPos() > 20000)
+    		if(Robot.driveTrain.getEncPos() > 5000)
     		{
     			Robot.driveTrain.zeroEnc();
     			Robot.driveTrain.setDrives(0, 0);
