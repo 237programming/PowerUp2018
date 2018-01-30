@@ -56,6 +56,7 @@ public class Robot extends TimedRobot
 		SmartDashboard.putData("Auto choices", m_chooser);
 		driveTrain.zeroEnc();
 		driveTrain.zeroYaw();
+		climber.zeroEnc();
 	}
 
 	/**
@@ -93,6 +94,7 @@ public class Robot extends TimedRobot
 	{
 		Scheduler.getInstance().run();
 		driveTrain.post();
+		climber.post();
 //		switch (m_autoSelected) 
 //		{
 //			case kCustomAuto:
@@ -113,6 +115,7 @@ public class Robot extends TimedRobot
 	{
 		driveTrain.setDrives(OI.driveJoystick.getY(),OI.driveJoystick.getX());
 		driveTrain.post();
+		climber.post();
 	}
 
 	/**
