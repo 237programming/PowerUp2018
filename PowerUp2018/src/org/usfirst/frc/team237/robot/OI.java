@@ -1,5 +1,8 @@
 package org.usfirst.frc.team237.robot;
 
+import org.usfirst.frc.team237.robot.commands.ElevatorDown;
+import org.usfirst.frc.team237.robot.commands.ElevatorUp;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -16,5 +19,9 @@ public class OI
 	public static Button climbOn= new JoystickButton(driveJoystick, 5);
 	public static Button climbOff= new JoystickButton(driveJoystick, 6);
 	
-	
+	public OI()
+	{
+		elevatorUp.whenPressed(new ElevatorUp());
+		elevatorDown.whenPressed(new ElevatorDown());
+	}
 }
