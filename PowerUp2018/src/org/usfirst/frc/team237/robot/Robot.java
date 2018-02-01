@@ -9,6 +9,7 @@
 package org.usfirst.frc.team237.robot;
 
 import org.usfirst.frc.team237.robot.commands.AutonomousCenterLeft;
+import org.usfirst.frc.team237.robot.commands.ElevatorUp;
 import org.usfirst.frc.team237.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.CubeHandlerSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.DriveSubsystem;
@@ -32,6 +33,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot 
 {
+	public static OI oi;
 	public static DriveSubsystem driveTrain = new DriveSubsystem();
 	public static ClimberSubsystem climber = new ClimberSubsystem();
 	public static CubeHandlerSubsystem cubeHandler = new CubeHandlerSubsystem();
@@ -49,6 +51,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void robotInit() 
 	{
+		oi = new OI();
 //		m_chooser.addDefault("Default Auto", kDefaultAuto);
 //		m_chooser.addObject("My Auto", kCustomAuto);
 		m_chooser = new SendableChooser<Command>();
@@ -115,6 +118,19 @@ public class Robot extends TimedRobot
 	public void teleopPeriodic() 
 	{
 		driveTrain.setDrives(OI.driveJoystick.getY(),OI.driveJoystick.getX());
+		if(OI.elevatorUp.get() == true)
+		{
+			cubeHandler.upElevator();
+		}
+		else if(OI.elevatorDown.get() == true && OI.elevatorUp.get() == false)
+		{
+			cubeHandler.downElevator();
+		}
+		else
+		{
+			cubeHandler.offElevator();
+		}
+		
 		driveTrain.post();
 		climber.post();
 		cubeHandler.post();
