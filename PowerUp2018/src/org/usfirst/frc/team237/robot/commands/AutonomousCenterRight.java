@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class AutonomousCenterLeft extends Command 
+public class AutonomousCenterRight extends Command 
 {
 	public Timer backwardsIntakeTimer = new Timer();
 	public double time;
@@ -26,7 +26,7 @@ public class AutonomousCenterLeft extends Command
 	
 	private State currentState;
 	
-    public AutonomousCenterLeft() 
+    public AutonomousCenterRight() 
     {
     	requires(Robot.driveTrain);
     	requires(Robot.cubeHandler);
@@ -60,9 +60,9 @@ public class AutonomousCenterLeft extends Command
     		}
     		break;
     	case firstTurn:
-    		Robot.driveTrain.setDrives(0, -.3);
+    		Robot.driveTrain.setDrives(0, .3);
     		Robot.driveTrain.getYaw();
-    		if(Robot.driveTrain.getYaw() < -2.0)
+    		if(Robot.driveTrain.getYaw() < 2.0)
     		{
     			Robot.driveTrain.zeroEnc();
     			Robot.driveTrain.setDrives(0, 0);
@@ -81,9 +81,9 @@ public class AutonomousCenterLeft extends Command
     		}
     		break;
     	case secondTurn:
-    		Robot.driveTrain.setDrives(0, -.3);
+    		Robot.driveTrain.setDrives(0, .3);
     		Robot.driveTrain.getYaw();
-    		if(Robot.driveTrain.getYaw() < -2.0)
+    		if(Robot.driveTrain.getYaw() < 2.0)
     		{
     			Robot.driveTrain.zeroEnc();
     			Robot.driveTrain.setDrives(0, 0);

@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -40,6 +41,32 @@ public class CubeHandlerSubsystem extends Subsystem
 	{
 		rightIntake.set(0);
 		leftIntake.set(0);
+	}
+	
+	public void upElevator()
+	{
+		elevator.set(.2);
+	}
+	
+	public void downElevator()
+	{
+		elevator.set(-.2);
+	}
+	
+	public void offElevator()
+	{
+		elevator.set(0);
+	}
+	
+	public double getEncPos()
+	{
+		double elevatorEnc = elevator.getSelectedSensorPosition(0);
+		return elevatorEnc;
+	}
+	
+	public void post()
+	{
+		SmartDashboard.putNumber("Elevator", getEncPos());
 	}
 	
     public void initDefaultCommand() 

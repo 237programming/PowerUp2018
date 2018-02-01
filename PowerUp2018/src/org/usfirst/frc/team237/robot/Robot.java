@@ -9,6 +9,7 @@
 package org.usfirst.frc.team237.robot;
 
 import org.usfirst.frc.team237.robot.commands.AutonomousCenterLeft;
+import org.usfirst.frc.team237.robot.commands.ElevatorUp;
 import org.usfirst.frc.team237.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.CubeHandlerSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.DriveSubsystem;
@@ -19,6 +20,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -31,6 +33,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot 
 {
+	public static OI oi;
 	public static DriveSubsystem driveTrain = new DriveSubsystem();
 	public static ClimberSubsystem climber = new ClimberSubsystem();
 	public static CubeHandlerSubsystem cubeHandler = new CubeHandlerSubsystem();
@@ -48,6 +51,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void robotInit() 
 	{
+		oi = new OI();
 //		m_chooser.addDefault("Default Auto", kDefaultAuto);
 //		m_chooser.addObject("My Auto", kCustomAuto);
 		m_chooser = new SendableChooser<Command>();
@@ -55,6 +59,7 @@ public class Robot extends TimedRobot
 		SmartDashboard.putData("Auto choices", m_chooser);
 		driveTrain.zeroEnc();
 		driveTrain.zeroYaw();
+		climber.zeroEnc();
 	}
 
 	/**
@@ -90,6 +95,10 @@ public class Robot extends TimedRobot
 	@Override
 	public void autonomousPeriodic() 
 	{
+		Scheduler.getInstance().run();
+		driveTrain.post();
+		climber.post();
+		cubeHandler.post();
 //		switch (m_autoSelected) 
 //		{
 //			case kCustomAuto:
@@ -109,7 +118,22 @@ public class Robot extends TimedRobot
 	public void teleopPeriodic() 
 	{
 		driveTrain.setDrives(OI.driveJoystick.getY(),OI.driveJoystick.getX());
+		if(OI.elevatorUp.get() == true)
+		{
+			cubeHandler.upElevator();
+		}
+		else if(OI.elevatorDown.get() == true && OI.elevatorUp.get() == false)
+		{
+			cubeHandler.downElevator();
+		}
+		else
+		{
+			cubeHandler.offElevator();
+		}
+		
 		driveTrain.post();
+		climber.post();
+		cubeHandler.post();
 	}
 
 	/**

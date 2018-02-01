@@ -14,4 +14,6 @@ public class RobotMap
 	public static int climber = 12;
 	
 	public static double deadband = 0.2;
+	public static double elevatorMax = 10000;
+	public static double elevatorMin = 0;
 }

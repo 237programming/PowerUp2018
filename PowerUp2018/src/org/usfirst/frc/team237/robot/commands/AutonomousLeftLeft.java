@@ -4,11 +4,10 @@ import org.usfirst.frc.team237.robot.Robot;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-
 /**
  *
  */
-public class AutonomousCenterLeft extends Command 
+public class AutonomousLeftLeft extends Command 
 {
 	public Timer backwardsIntakeTimer = new Timer();
 	public double time;
@@ -17,23 +16,20 @@ public class AutonomousCenterLeft extends Command
 		start,
 		firstMove,
 		firstTurn,
-		secondMove,
-		secondTurn,
-		lastMove,
 		outtake,
 		finished
 	};
 	
 	private State currentState;
 	
-    public AutonomousCenterLeft() 
+    public AutonomousLeftLeft() 
     {
     	requires(Robot.driveTrain);
     	requires(Robot.cubeHandler);
-        // Use requires() here to declare subsystem dependencies
+    	// Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
-
+    
     // Called just before this Command runs the first time
     protected void initialize() 
     {
@@ -62,44 +58,13 @@ public class AutonomousCenterLeft extends Command
     	case firstTurn:
     		Robot.driveTrain.setDrives(0, -.3);
     		Robot.driveTrain.getYaw();
-    		if(Robot.driveTrain.getYaw() < -2.0)
+    		if(Robot.driveTrain.getYaw() < 2.0)
     		{
     			Robot.driveTrain.zeroEnc();
     			Robot.driveTrain.setDrives(0, 0);
     			Robot.driveTrain.zeroYaw();
-    			currentState = State.secondMove;
-    		}
-    		break;
-    	case secondMove:
-    		Robot.driveTrain.setDrives(-.3, 0);
-    		Robot.driveTrain.getEncPos();
-    		if(Robot.driveTrain.getEncPos() > 5000)
-    		{
-    			Robot.driveTrain.zeroEnc();
-    			Robot.driveTrain.setDrives(0, 0);
-    			currentState =  State.secondTurn;
-    		}
-    		break;
-    	case secondTurn:
-    		Robot.driveTrain.setDrives(0, -.3);
-    		Robot.driveTrain.getYaw();
-    		if(Robot.driveTrain.getYaw() < -2.0)
-    		{
-    			Robot.driveTrain.zeroEnc();
-    			Robot.driveTrain.setDrives(0, 0);
-    			Robot.driveTrain.zeroYaw();
-    			currentState = State.lastMove;
-    		}
-    		break;
-    	case lastMove:
-    		Robot.driveTrain.setDrives(-.3, 0);
-    		Robot.driveTrain.getEncPos();
-    		if(Robot.driveTrain.getEncPos() > 5000)
-    		{
-    			Robot.driveTrain.zeroEnc();
-    			Robot.driveTrain.setDrives(0, 0);
     			time = backwardsIntakeTimer.getFPGATimestamp();
-    			currentState =  State.outtake;
+    			currentState = State.outtake;
     		}
     		break;
     	case outtake:
