@@ -130,7 +130,18 @@ public class Robot extends TimedRobot
 		{
 			cubeHandler.offElevator();
 		}
-		
+		if(OI.intake.get() == true)
+		{
+			cubeHandler.fowardIntake();
+		}
+		else if(OI.outtake.get() == true && OI.intake.get() == false)
+		{
+			cubeHandler.backwardIntake();
+		}
+		else
+		{
+			cubeHandler.offIntake();
+		}
 		driveTrain.post();
 		climber.post();
 		cubeHandler.post();
