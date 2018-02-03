@@ -28,6 +28,7 @@ public class CubeHandlerSubsystem extends Subsystem
 		elevator.configNominalOutputReverse(-12, 0);
 		
 		elevator.setSensorPhase(false);
+		elevator.overrideLimitSwitchesEnable(true);
 	}
 	
 	public void actuate(boolean open)
