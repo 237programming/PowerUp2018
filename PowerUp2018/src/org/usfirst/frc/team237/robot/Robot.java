@@ -119,29 +119,24 @@ public class Robot extends TimedRobot
 	{
 		driveTrain.setDrives(OI.driveJoystick.getY(),OI.driveJoystick.getX());
 		if(OI.elevatorUp.get() == true)
-		{
 			cubeHandler.upElevator();
-		}
 		else if(OI.elevatorDown.get() == true && OI.elevatorUp.get() == false)
-		{
 			cubeHandler.downElevator();
-		}
 		else
-		{
 			cubeHandler.offElevator();
-		}
+		
 		if(OI.intake.get() == true)
-		{
 			cubeHandler.fowardIntake();
-		}
 		else if(OI.outtake.get() == true && OI.intake.get() == false)
-		{
 			cubeHandler.backwardIntake();
-		}
 		else
-		{
 			cubeHandler.offIntake();
-		}
+		
+		if(OI.solenoid.get() == true)
+			cubeHandler.actuate(true);
+		else
+			cubeHandler.actuate(false);
+		
 		driveTrain.post();
 		climber.post();
 		cubeHandler.post();
