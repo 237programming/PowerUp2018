@@ -9,6 +9,9 @@
 package org.usfirst.frc.team237.robot;
 
 import org.usfirst.frc.team237.robot.commands.AutonomousCenterLeft;
+import org.usfirst.frc.team237.robot.commands.AutonomousCenterRight;
+import org.usfirst.frc.team237.robot.commands.AutonomousRightLeft;
+import org.usfirst.frc.team237.robot.commands.AutonomousRightRight;
 import org.usfirst.frc.team237.robot.commands.ElevatorUp;
 import org.usfirst.frc.team237.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.CubeHandlerSubsystem;
@@ -83,7 +86,7 @@ public class Robot extends TimedRobot
 		//autonomousCommand = (Command) m_chooser.getSelected();
 		//if(autonomousCommand != null)
 		//	autonomousCommand.start();
-		autonomousCommand = new AutonomousCenterLeft();
+		autonomousCommand = new AutonomousRightLeft();
 		autonomousCommand.start();
 		
 //		System.out.println("Auto selected: " + m_autoSelected);
@@ -132,10 +135,10 @@ public class Robot extends TimedRobot
 		else
 			cubeHandler.offIntake();
 		
-		if(OI.solenoid.get() == true)
-			cubeHandler.actuate(true);
-		else
-			cubeHandler.actuate(false);
+//		if(OI.solenoid.get() == true)
+//			cubeHandler.actuate(true);
+//		else
+//			cubeHandler.actuate(false);
 		
 		driveTrain.post();
 		climber.post();

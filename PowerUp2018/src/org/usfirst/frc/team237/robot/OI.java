@@ -18,7 +18,7 @@ public class OI
 	public static Button elevatorDown = new JoystickButton(driveJoystick, 2);
 	public static Button climbOn = new JoystickButton(driveJoystick, 5);
 	public static Button climbOff = new JoystickButton(driveJoystick, 6);
-	public static Button solenoid = new JoystickButton(driveJoystick, 7);
+//	public static Button solenoid = new JoystickButton(driveJoystick, 7);
 	
 //	public OI()
 //	{

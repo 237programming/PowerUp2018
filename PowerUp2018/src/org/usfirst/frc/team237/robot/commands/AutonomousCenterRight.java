@@ -38,6 +38,7 @@ public class AutonomousCenterRight extends Command
     protected void initialize() 
     {
     	Robot.driveTrain.zeroEnc();
+    	Robot.driveTrain.zeroYaw();
     	currentState = State.start;
     }
 
@@ -50,9 +51,9 @@ public class AutonomousCenterRight extends Command
     		currentState = State.firstMove;
     		break;
     	case firstMove:
-    		Robot.driveTrain.setDrives(-.3, 0);
+    		Robot.driveTrain.setDrives(-.8, 0);
     		Robot.driveTrain.getEncPos();
-    		if(Robot.driveTrain.getEncPos() > 5000)
+    		if(Robot.driveTrain.getEncPos() > 2000)
     		{
     			Robot.driveTrain.zeroEnc();
     			Robot.driveTrain.setDrives(0, 0);
@@ -60,20 +61,19 @@ public class AutonomousCenterRight extends Command
     		}
     		break;
     	case firstTurn:
-    		Robot.driveTrain.setDrives(0, .3);
+    		Robot.driveTrain.setDrives(0, .5);
     		Robot.driveTrain.getYaw();
-    		if(Robot.driveTrain.getYaw() < 2.0)
+    		if(Robot.driveTrain.getYaw() > 30.0)
     		{
     			Robot.driveTrain.zeroEnc();
     			Robot.driveTrain.setDrives(0, 0);
-    			Robot.driveTrain.zeroYaw();
     			currentState = State.secondMove;
     		}
     		break;
     	case secondMove:
-    		Robot.driveTrain.setDrives(-.3, 0);
+    		Robot.driveTrain.setDrives(-.8, 0);
     		Robot.driveTrain.getEncPos();
-    		if(Robot.driveTrain.getEncPos() > 5000)
+    		if(Robot.driveTrain.getEncPos() > 3500)
     		{
     			Robot.driveTrain.zeroEnc();
     			Robot.driveTrain.setDrives(0, 0);
@@ -81,20 +81,19 @@ public class AutonomousCenterRight extends Command
     		}
     		break;
     	case secondTurn:
-    		Robot.driveTrain.setDrives(0, .3);
+    		Robot.driveTrain.setDrives(0, -.5);
     		Robot.driveTrain.getYaw();
-    		if(Robot.driveTrain.getYaw() < 2.0)
+    		if(Robot.driveTrain.getYaw() < 10.0)
     		{
     			Robot.driveTrain.zeroEnc();
     			Robot.driveTrain.setDrives(0, 0);
-    			Robot.driveTrain.zeroYaw();
     			currentState = State.lastMove;
     		}
     		break;
     	case lastMove:
-    		Robot.driveTrain.setDrives(-.3, 0);
+    		Robot.driveTrain.setDrives(-.8, 0);
     		Robot.driveTrain.getEncPos();
-    		if(Robot.driveTrain.getEncPos() > 5000)
+    		if(Robot.driveTrain.getEncPos() > 250)
     		{
     			Robot.driveTrain.zeroEnc();
     			Robot.driveTrain.setDrives(0, 0);

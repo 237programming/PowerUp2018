@@ -11,12 +11,13 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
 
 /**
  *
  */
-public class DriveSubsystem extends Subsystem 
+public class DriveSubsystem extends Subsystem implements edu.wpi.first.wpilibj.PIDOutput
 {	
 	private WPI_TalonSRX leftDrive = new WPI_TalonSRX(RobotMap.driveTalon1);
 	private WPI_TalonSRX leftDriveSlave = new WPI_TalonSRX(RobotMap.driveTalon2);
@@ -24,6 +25,8 @@ public class DriveSubsystem extends Subsystem
 	private WPI_TalonSRX rightDriveSlave = new WPI_TalonSRX(RobotMap.driveTalon4);
 //	private AHRS gyro = new AHRS(SerialPort.Port.kUSB, AHRS.SerialDataType.kProcessedData, (byte) 200);
 	private AHRS gyro = new AHRS(SPI.Port.kMXP);
+	private PIDController angularPID = new PIDController(0.1, 0.001, 0.0, gyro, this);
+	private double PIDOutput = 0;
     
 	public DriveSubsystem()
 	{
@@ -31,6 +34,12 @@ public class DriveSubsystem extends Subsystem
 		leftDriveSlave.set(ControlMode.Follower, 1);
 		rightDrive.set(ControlMode.PercentOutput, 0);
 		rightDriveSlave.set(ControlMode.Follower, 3);
+		
+		angularPID.disable();
+		angularPID.setInputRange(-180, 180);
+		angularPID.setOutputRange(-1.0, 1.0);
+		angularPID.setPercentTolerance(20);
+		angularPID.setContinuous();
 		
 		gyro.reset();
 		
@@ -109,6 +118,30 @@ public class DriveSubsystem extends Subsystem
 	{
 		leftDrive.setSelectedSensorPosition(0, 0, 0);
 		rightDrive.setSelectedSensorPosition(0, 0, 0);
+	}
+	
+	@Override
+	public void pidWrite(double output)
+	{
+		PIDOutput = output;
+	}
+	
+	public void rotateTo(double targetAngle)
+	{
+		PIDOutput = 0; 
+		angularPID.disable();
+		angularPID.setSetpoint(targetAngle);
+		angularPID.enable();
+	}
+	
+	public void disableRotateTo()
+	{
+		angularPID.disable();
+	}
+	
+	public void pidDrive()
+	{
+		setDrives(0.0,PIDOutput);
 	}
 	
 	public void post()

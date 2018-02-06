@@ -18,9 +18,9 @@ public class CubeHandlerSubsystem extends Subsystem
 	private WPI_TalonSRX leftIntake = new WPI_TalonSRX(RobotMap.intake1);
 	private WPI_TalonSRX rightIntake = new WPI_TalonSRX(RobotMap.intake2);
 	private WPI_TalonSRX elevator = new WPI_TalonSRX(RobotMap.elevator1);
-	static DoubleSolenoid grabber = new DoubleSolenoid(RobotMap.solenoidCAN, RobotMap.grabber);
+//	private DoubleSolenoid grabber = new DoubleSolenoid(0, RobotMap.grabber);
 	
-	public void CubeHandlerSubsystem()
+	public CubeHandlerSubsystem()
 	{
 		leftIntake.set(ControlMode.PercentOutput,0);
 		rightIntake.set(ControlMode.PercentOutput, 0);
@@ -28,16 +28,15 @@ public class CubeHandlerSubsystem extends Subsystem
 		elevator.configNominalOutputReverse(-12, 0);
 		
 		elevator.setSensorPhase(false);
-		elevator.overrideLimitSwitchesEnable(true);
 	}
 	
-	public void actuate(boolean open)
-	{
-		if(open == true)
-			grabber.set(DoubleSolenoid.Value.kForward);
-		else
-			grabber.set(DoubleSolenoid.Value.kReverse);
-	}
+//	public void actuate(boolean open)
+//	{
+//		if(open == true)
+//			grabber.set(DoubleSolenoid.Value.kForward);
+//		else
+//			grabber.set(DoubleSolenoid.Value.kReverse);
+//	}
 	
 	public void fowardIntake()
 	{
