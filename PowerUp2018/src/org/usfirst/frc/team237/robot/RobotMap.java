@@ -23,11 +23,11 @@ public class RobotMap
 	public static int solenoidCAN = 51;
 	public static int grabber = 1;
 	
-	//PID Values
-	public static double turnP = 0.1;
+	//PID shit
+	public static double turnP = 0.03; //0.1; 
 	public static double turnI = 0.0;
 	public static double turnD = 0.1;
-	public static double driveP = 0.05;
+	public static double driveP = 0.03; //0.05;
 	public static double driveI = 0.001;
 	public static double driveD = 0.0;
 	

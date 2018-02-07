@@ -87,7 +87,7 @@ public class Robot extends TimedRobot
 		//autonomousCommand = (Command) m_chooser.getSelected();
 		//if(autonomousCommand != null)
 		//	autonomousCommand.start();
-		autonomousCommand = new RotateTest(); //new AutonomousRightLeft();
+		autonomousCommand = new AutonomousRightLeft(); //new AutonomousRightLeft();
 		autonomousCommand.start();
 		
 //		System.out.println("Auto selected: " + m_autoSelected);
