@@ -1,19 +1,17 @@
 package org.usfirst.frc.team237.robot.commands;
 
 import org.usfirst.frc.team237.robot.Robot;
+import org.usfirst.frc.team237.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-
 /**
  *
  */
 public class AutonomousLeftRight extends Command 
 {
-	
-	
 	public Timer backwardsIntakeTimer = new Timer();
-	public double time;
+	private double time;
 	private enum State
 	{
 		start,
@@ -22,22 +20,17 @@ public class AutonomousLeftRight extends Command
 		secondMove,
 		secondTurn,
 		thirdMove,
-		thirdTurn,
-		fourthMove,
-		lastTurn,
-		lastMove,
 		outtake,
-		finished,
-		
+		finished
 	};
 	
 	private State currentState;
-
+	
     public AutonomousLeftRight() 
     {
     	requires(Robot.driveTrain);
     	requires(Robot.cubeHandler);
-        //Use requires() here to declare subsystem dependencies
+        // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 
@@ -45,114 +38,85 @@ public class AutonomousLeftRight extends Command
     protected void initialize() 
     {
     	Robot.driveTrain.zeroEnc();
+    	Robot.driveTrain.disableRotateTo();
+    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
+    	Robot.driveTrain.rotateTo(0);
+    	time = Timer.getFPGATimestamp();
     	currentState = State.start;
-  
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
-    	switch (currentState)
+    	switch(currentState)
     	{
-    	case start:
-    		currentState = State.firstMove;
-    		break;
-    	case firstMove:
-    		Robot.driveTrain.setDrives(-.3,0);
-    		Robot.driveTrain.getEncPos();
-    		if(Robot.driveTrain.getEncPos() > 5000)
+	    case start: 
+			currentState = State.firstMove;
+			break;
+		case firstMove:
+			Robot.driveTrain.pidDrive(-.8);
+			if(Robot.driveTrain.getEncPos() > 13000)
+			{
+				Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
+		    	Robot.driveTrain.rotateTo(85);
+		    	time = Timer.getFPGATimestamp();
+				currentState = State.firstTurn;
+			}
+			break;
+		case firstTurn:
+			Robot.driveTrain.pidDrive(0);
+			if(Timer.getFPGATimestamp() > time + 1)
+			{
+				Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
+		    	Robot.driveTrain.rotateTo(85);
+				currentState = State.secondMove;
+			}
+			break;
+		case secondMove:
+			Robot.driveTrain.pidDrive(-.8);
+			if(Robot.driveTrain.getEncPos() > 10500)
+			{
+				Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
+		    	Robot.driveTrain.rotateTo(179);
+		    	time = Timer.getFPGATimestamp();
+				currentState = State.secondTurn;
+			}
+			break;
+		case secondTurn:
+			Robot.driveTrain.pidDrive(0);
+    		if(Timer.getFPGATimestamp() > time + 1)
     		{
-    			Robot.driveTrain.zeroEnc();
-    			Robot.driveTrain.setDrives(0, 0);
-    			currentState = State.firstTurn;
-    		}
-    		break;
-    	case firstTurn:
-    		Robot.driveTrain.setDrives(0, -.3);
-    		Robot.driveTrain.getYaw();
-    		if(Robot.driveTrain.getYaw() <- 2.0)
-    		{
-    			Robot.driveTrain.zeroEnc();
-    			Robot.driveTrain.zeroYaw();
-    			Robot.driveTrain.setDrives(0, 0);
-    			currentState = State.secondMove;
-    		}
-    		break;
-    	case secondMove:
-    		Robot.driveTrain.setDrives(-.3,0);
-    		Robot.driveTrain.getEncPos();
-    		if(Robot.driveTrain.getEncPos()>5000)
-    		{
-    			Robot.driveTrain.zeroEnc();
-    			Robot.driveTrain.setDrives(0, 0);
-    			currentState = State.secondTurn;
-    		}
-    		break;
-    	case secondTurn:
-    		Robot.driveTrain.setDrives(0, -.3);
-    		Robot.driveTrain.getYaw();
-    		if(Robot.driveTrain.getYaw() < 2.0)
-    		{
-    			Robot.driveTrain.zeroEnc();
-    			Robot.driveTrain.zeroYaw();
-    			Robot.driveTrain.setDrives(0, 0);
+    			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
+		    	Robot.driveTrain.rotateTo(179);
     			currentState = State.thirdMove;
     		}
-    		break;
-    	case thirdMove:
-    		Robot.driveTrain.setDrives(-.3,0);
-    		Robot.driveTrain.getEncPos();
-    		if(Robot.driveTrain.getEncPos()>5000)
-    		{
-    			Robot.driveTrain.zeroEnc();
-    			Robot.driveTrain.setDrives(0, 0);
-    			currentState = State.thirdTurn;
-    		}
-    		break;
-    	case thirdTurn:
-    		Robot.driveTrain.setDrives(0, -.3);
-    		Robot.driveTrain.getYaw();
-    		if(Robot.driveTrain.getYaw() < 2.0)
-    		{
-    			Robot.driveTrain.zeroEnc();
-    			Robot.driveTrain.zeroYaw();
-    			Robot.driveTrain.setDrives(0, 0);
-    			currentState = State.fourthMove;
-    		}
-    		break;
-    	case fourthMove:
-    		Robot.driveTrain.setDrives(-.3,0);
-    		Robot.driveTrain.getEncPos();
-    		if(Robot.driveTrain.getEncPos()>5000)
-    		{
-    			Robot.driveTrain.zeroEnc();
-    			Robot.driveTrain.setDrives(0, 0);
-    			currentState = State.lastTurn;
-    		}
-    		break;
-    	case lastTurn:
-    		Robot.driveTrain.setDrives(0, -.3);
-    		Robot.driveTrain.getYaw();
-    		if(Robot.driveTrain.getYaw() < 2.0)
-    		{
-    			Robot.driveTrain.zeroEnc();
-    			Robot.driveTrain.zeroYaw();
-    			Robot.driveTrain.setDrives(0, 0);
-    			currentState = State.lastMove;
-    		}
-    		break;
-    	case lastMove:
-    		Robot.driveTrain.setDrives(-.3,0);
-    		Robot.driveTrain.getEncPos();
-    		if(Robot.driveTrain.getEncPos()>5000)
-    		{
-    			Robot.driveTrain.zeroEnc();
-    			Robot.driveTrain.setDrives(0, 0);
+			break;
+		case thirdMove:
+			Robot.driveTrain.pidDrive(-.8);
+			if(Robot.driveTrain.getEncPos() > 500)
+			{
+				Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
+		    	Robot.driveTrain.rotateTo(179);
     			time = backwardsIntakeTimer.getFPGATimestamp();
-    			currentState = State.outtake;
-    		}
-    		break;
-    	case outtake:
+				currentState = State.outtake;
+			}
+			break;
+		case outtake:
     		Robot.cubeHandler.backwardIntake();
     		if(backwardsIntakeTimer.getFPGATimestamp() > 2 + time)
     		{
@@ -162,7 +126,6 @@ public class AutonomousLeftRight extends Command
     		break;
     	default:
     		break;
-    		
     	}
     }
 

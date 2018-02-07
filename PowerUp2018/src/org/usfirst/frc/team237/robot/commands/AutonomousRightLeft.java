@@ -112,6 +112,7 @@ public class AutonomousRightLeft extends Command
 				Robot.driveTrain.setDrives(0, 0);
 				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
 		    	Robot.driveTrain.rotateTo(-179);
+    			time = backwardsIntakeTimer.getFPGATimestamp();
 				currentState = State.outtake;
 			}
 			break;

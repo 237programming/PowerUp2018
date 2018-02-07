@@ -1,6 +1,7 @@
 package org.usfirst.frc.team237.robot.commands;
 
 import org.usfirst.frc.team237.robot.Robot;
+import org.usfirst.frc.team237.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -34,6 +35,10 @@ public class AutonomousLeftLeft extends Command
     protected void initialize() 
     {
     	Robot.driveTrain.zeroEnc();
+    	Robot.driveTrain.disableRotateTo();
+    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
+    	Robot.driveTrain.rotateTo(0);
+    	time = Timer.getFPGATimestamp();
     	currentState = State.start;
     }
 
@@ -46,24 +51,28 @@ public class AutonomousLeftLeft extends Command
     		currentState = State.firstMove;
     		break;
     	case firstMove:
-    		Robot.driveTrain.setDrives(-.3, 0);
-    		Robot.driveTrain.getEncPos();
-    		if(Robot.driveTrain.getEncPos() > 5000)
+    		Robot.driveTrain.pidDrive(-.8);
+    		if(Robot.driveTrain.getEncPos() > 8000)
     		{
-    			Robot.driveTrain.zeroEnc();
-    			Robot.driveTrain.setDrives(0, 0);
+    			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
+		    	Robot.driveTrain.rotateTo(70);
+		    	time = Timer.getFPGATimestamp();
     			currentState = State.firstTurn;
     		}
     		break;
     	case firstTurn:
-    		Robot.driveTrain.setDrives(0, -.3);
-    		Robot.driveTrain.getYaw();
-    		if(Robot.driveTrain.getYaw() < 2.0)
+    		Robot.driveTrain.pidDrive(0);
+    		if(Timer.getFPGATimestamp() > time + 1)
     		{
-    			Robot.driveTrain.zeroEnc();
-    			Robot.driveTrain.setDrives(0, 0);
-    			Robot.driveTrain.zeroYaw();
-    			time = backwardsIntakeTimer.getFPGATimestamp();
+    			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+//		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
+//		    	Robot.driveTrain.rotateTo(70);
+				time = backwardsIntakeTimer.getFPGATimestamp();
     			currentState = State.outtake;
     		}
     		break;
