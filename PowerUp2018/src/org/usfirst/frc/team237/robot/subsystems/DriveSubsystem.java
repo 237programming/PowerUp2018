@@ -25,7 +25,7 @@ public class DriveSubsystem extends Subsystem implements edu.wpi.first.wpilibj.P
 	private WPI_TalonSRX rightDriveSlave = new WPI_TalonSRX(RobotMap.driveTalon4);
 //	private AHRS gyro = new AHRS(SerialPort.Port.kUSB, AHRS.SerialDataType.kProcessedData, (byte) 200);
 	private AHRS gyro = new AHRS(SPI.Port.kMXP);
-	private PIDController angularPID = new PIDController(0.1, 0.001, 0.0, gyro, this);
+	private PIDController angularPID = new PIDController(0.1, 0.0, 0.1, gyro, this);
 	private double PIDOutput = 0;
     
 	public DriveSubsystem()
@@ -36,8 +36,8 @@ public class DriveSubsystem extends Subsystem implements edu.wpi.first.wpilibj.P
 		rightDriveSlave.set(ControlMode.Follower, 3);
 		angularPID.disable();
 		angularPID.setInputRange(-180, 180);
-		angularPID.setOutputRange(-1.0, 1.0);
-		angularPID.setPercentTolerance(20);
+		angularPID.setOutputRange(-0.8, 0.8);
+		angularPID.setPercentTolerance(30);
 		angularPID.setContinuous();
 		
 		
@@ -92,7 +92,18 @@ public class DriveSubsystem extends Subsystem implements edu.wpi.first.wpilibj.P
 	
 	double sgn(double x)
 	{
-		return x/Math.abs(x);
+		if (x < 0)
+		{
+			return -1.0; 
+		}
+		else if (x > 0)
+		{
+			return 1.0; 
+		} 
+		else
+		{
+			return 0.0; 
+		}
 	}
 	
 	public double getEncPos()
@@ -137,11 +148,17 @@ public class DriveSubsystem extends Subsystem implements edu.wpi.first.wpilibj.P
 	public void disableRotateTo()
 	{
 		angularPID.disable();
+		setDrives(0.0,0.0);
 	}
-	
-	public void pidDrive()
+	public void setPIDValues(double P, double I, double D)
 	{
-		setDrives(0.0,PIDOutput);
+		angularPID.setP(P);
+		angularPID.setI(I);
+		angularPID.setD(D);
+	}
+	public void pidDrive(double speed)
+	{
+		setDrives(speed,PIDOutput);
 	}
 	
 	public void post()

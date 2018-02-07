@@ -9,7 +9,11 @@
 package org.usfirst.frc.team237.robot;
 
 import org.usfirst.frc.team237.robot.commands.AutonomousCenterLeft;
+import org.usfirst.frc.team237.robot.commands.AutonomousCenterRight;
+import org.usfirst.frc.team237.robot.commands.AutonomousRightLeft;
+import org.usfirst.frc.team237.robot.commands.AutonomousRightRight;
 import org.usfirst.frc.team237.robot.commands.ElevatorUp;
+import org.usfirst.frc.team237.robot.commands.RotateTest;
 import org.usfirst.frc.team237.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.CubeHandlerSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.DriveSubsystem;
@@ -83,7 +87,7 @@ public class Robot extends TimedRobot
 		//autonomousCommand = (Command) m_chooser.getSelected();
 		//if(autonomousCommand != null)
 		//	autonomousCommand.start();
-		autonomousCommand = new AutonomousCenterLeft();
+		autonomousCommand = new RotateTest(); //new AutonomousRightLeft();
 		autonomousCommand.start();
 		
 //		System.out.println("Auto selected: " + m_autoSelected);
@@ -119,17 +123,23 @@ public class Robot extends TimedRobot
 	{
 		driveTrain.setDrives(OI.driveJoystick.getY(),OI.driveJoystick.getX());
 		if(OI.elevatorUp.get() == true)
-		{
 			cubeHandler.upElevator();
-		}
 		else if(OI.elevatorDown.get() == true && OI.elevatorUp.get() == false)
-		{
 			cubeHandler.downElevator();
-		}
 		else
-		{
 			cubeHandler.offElevator();
-		}
+		
+		if(OI.intake.get() == true)
+			cubeHandler.fowardIntake();
+		else if(OI.outtake.get() == true && OI.intake.get() == false)
+			cubeHandler.backwardIntake();
+		else
+			cubeHandler.offIntake();
+		
+//		if(OI.solenoid.get() == true)
+//			cubeHandler.actuate(true);
+//		else
+//			cubeHandler.actuate(false);
 		
 		driveTrain.post();
 		climber.post();
