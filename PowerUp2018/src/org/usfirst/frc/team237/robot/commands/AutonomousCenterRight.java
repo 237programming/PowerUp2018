@@ -56,13 +56,13 @@ public class AutonomousCenterRight extends Command
     		break;
     	case firstMove:
     		Robot.driveTrain.pidDrive(-.8);
-    		if(Robot.driveTrain.getEncPos() > 2000)
+    		if(Robot.driveTrain.getEncPos() > 1500)
     		{
     			Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
-		    	Robot.driveTrain.rotateTo(30);
+		    	Robot.driveTrain.rotateTo(50);
 		    	time = Timer.getFPGATimestamp();
     			currentState = State.firstTurn;
     		}
@@ -75,7 +75,7 @@ public class AutonomousCenterRight extends Command
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
-		    	Robot.driveTrain.rotateTo(30);
+		    	Robot.driveTrain.rotateTo(50);
     			currentState = State.secondMove;
     		}
     		break;
@@ -87,20 +87,20 @@ public class AutonomousCenterRight extends Command
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
-		    	Robot.driveTrain.rotateTo(10);
+		    	Robot.driveTrain.rotateTo(5);
 		    	time = Timer.getFPGATimestamp();
     			currentState =  State.secondTurn;
     		}
     		break;
     	case secondTurn:
     		Robot.driveTrain.pidDrive(0);
-    		if(Timer.getFPGATimestamp() > time + 1)
+    		if(Timer.getFPGATimestamp() > time + .5)
     		{
     			Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
-		    	Robot.driveTrain.rotateTo(10);
+		    	Robot.driveTrain.rotateTo(5);
     			currentState = State.lastMove;
     		}
     		break;
@@ -112,7 +112,7 @@ public class AutonomousCenterRight extends Command
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
-		    	Robot.driveTrain.rotateTo(10);
+		    	Robot.driveTrain.rotateTo(5);
     			time = backwardsIntakeTimer.getFPGATimestamp();
     			currentState =  State.outtake;
     		}

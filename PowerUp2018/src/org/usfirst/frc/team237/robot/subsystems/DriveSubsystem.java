@@ -48,8 +48,8 @@ public class DriveSubsystem extends Subsystem implements edu.wpi.first.wpilibj.P
 	
 	public void setDrives(double x, double y)
 	{
-			x = Math.abs(x) > 0.1 ? x : 0;
-			y = Math.abs(y) > 0.1 ? y : 0;
+			x = Math.abs(x) > 0.2 ? x : 0;
+			y = Math.abs(y) > 0.2 ? y : 0;
 			
 			if(x != 0)
 			{

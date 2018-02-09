@@ -55,8 +55,9 @@ public class AutonomousRightLeft extends Command
 			break;
 		case firstMove:
 			Robot.driveTrain.pidDrive(-.8);
-			if(Robot.driveTrain.getEncPos() > 13000)
+			if(Robot.driveTrain.getEncPos() > 12000)
 			{
+				System.out.println(Robot.driveTrain.getEncPos());
 				Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
@@ -80,7 +81,7 @@ public class AutonomousRightLeft extends Command
 			break;
 		case secondMove:
 			Robot.driveTrain.pidDrive(-.8);
-			if(Robot.driveTrain.getEncPos() > 10500)
+			if(Robot.driveTrain.getEncPos() > 7000)
 			{
 				Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();

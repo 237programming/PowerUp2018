@@ -87,7 +87,7 @@ public class Robot extends TimedRobot
 		//autonomousCommand = (Command) m_chooser.getSelected();
 		//if(autonomousCommand != null)
 		//	autonomousCommand.start();
-		autonomousCommand = new AutonomousRightLeft(); //new AutonomousRightLeft();
+		autonomousCommand = new AutonomousRightRight(); //new AutonomousRightLeft();
 		autonomousCommand.start();
 		
 //		System.out.println("Auto selected: " + m_autoSelected);
@@ -136,10 +136,10 @@ public class Robot extends TimedRobot
 		else
 			cubeHandler.offIntake();
 		
-//		if(OI.solenoid.get() == true)
-//			cubeHandler.actuate(true);
-//		else
-//			cubeHandler.actuate(false);
+		if(OI.grabberOpen.get() == true)
+			cubeHandler.actuate(true);
+		if(OI.grabberClose.get() == true)
+			cubeHandler.actuate(false);	
 		
 		driveTrain.post();
 		climber.post();
