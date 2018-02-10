@@ -25,7 +25,7 @@ public class CubeHandlerSubsystem extends Subsystem
 		leftIntake.set(ControlMode.PercentOutput,0);
 		rightIntake.set(ControlMode.PercentOutput, 0);
 		elevator.set(ControlMode.PercentOutput, 0);
-		//elevator.configNominalOutputReverse(-12, 0);
+		elevator.configNominalOutputReverse(0, 0);
 		
 		elevator.setSensorPhase(false);
 	}
@@ -63,7 +63,7 @@ public class CubeHandlerSubsystem extends Subsystem
 	
 	public void downElevator()
 	{
-		elevator.set(-.3);
+		elevator.set(-.8);
 	}
 	
 	public void offElevator()

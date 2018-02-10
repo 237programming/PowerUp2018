@@ -21,6 +21,7 @@ import org.usfirst.frc.team237.robot.subsystems.DriveSubsystem;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -42,11 +43,13 @@ public class Robot extends TimedRobot
 	public static ClimberSubsystem climber = new ClimberSubsystem();
 	public static CubeHandlerSubsystem cubeHandler = new CubeHandlerSubsystem();
 	public static PowerDistributionPanel PDP = new PowerDistributionPanel(50);
+	private boolean previousButtonState = false;
+	private boolean driveState = true;
 //	private static final String kDefaultAuto = "Default";
 //	private static final String kCustomAuto = "My Auto";
 //	private String m_autoSelected;
 	Command autonomousCommand;
-	SendableChooser<Command> m_chooser;
+//	SendableChooser configChooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -58,9 +61,9 @@ public class Robot extends TimedRobot
 		oi = new OI();
 //		m_chooser.addDefault("Default Auto", kDefaultAuto);
 //		m_chooser.addObject("My Auto", kCustomAuto);
-		m_chooser = new SendableChooser<Command>();
-		m_chooser.addDefault("Center Left", new AutonomousCenterLeft());
-		SmartDashboard.putData("Auto choices", m_chooser);
+//		m_chooser = new SendableChooser<Command>();
+//		m_chooser.addDefault("Center Left", new AutonomousCenterLeft());
+//		SmartDashboard.putData("Auto choices", m_chooser);
 		driveTrain.zeroEnc();
 		driveTrain.zeroYaw();
 		climber.zeroEnc();
@@ -84,10 +87,20 @@ public class Robot extends TimedRobot
 //		m_autoSelected = SmartDashboard.getString("Auto Selector",
 //		 		kDefaultAuto);
 		driveTrain.zeroYaw();
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+                if(gameData.length() > 0)
+                {
+                	if(gameData.charAt(0) == 'L')
+                	{
+                		autonomousCommand = new AutonomousRightLeft();
+                	} 
+                	else 
+                	{
+                		autonomousCommand = new AutonomousRightRight();
+                	}
+                }
 		//autonomousCommand = (Command) m_chooser.getSelected();
-		//if(autonomousCommand != null)
-		//	autonomousCommand.start();
-		autonomousCommand = new AutonomousRightRight(); //new AutonomousRightLeft();
 		autonomousCommand.start();
 		
 //		System.out.println("Auto selected: " + m_autoSelected);
@@ -121,6 +134,8 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopPeriodic() 
 	{
+		SmartDashboard.putBoolean("Reverse Drive", driveState);
+		
 		driveTrain.setDrives(OI.driveJoystick.getY(),OI.driveJoystick.getX());
 		if(OI.elevatorUp.get() == true)
 			cubeHandler.upElevator();
@@ -128,6 +143,30 @@ public class Robot extends TimedRobot
 			cubeHandler.downElevator();
 		else
 			cubeHandler.offElevator();
+		
+		//Check for press of reverse drive button
+		if(OI.reverseDrive.get() == true)
+		{
+			//Was it already pressed?
+			if(previousButtonState == false)
+			{
+				//if not, change state
+				if(driveState == true)
+					driveState = false;
+				else
+					driveState = true;
+			}
+			//set current state of button
+			previousButtonState = true;
+		}	
+		else
+			previousButtonState = false;
+			
+		// if drive state reversed, reverse controls
+		if(driveState == false)	
+			driveTrain.reverseDrive(OI.driveJoystick.getY(), OI.driveJoystick.getX());	
+		else
+			driveTrain.setDrives(OI.driveJoystick.getY(),OI.driveJoystick.getX());
 		
 		if(OI.intake.get() == true)
 			cubeHandler.fowardIntake();

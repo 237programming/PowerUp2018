@@ -48,46 +48,89 @@ public class DriveSubsystem extends Subsystem implements edu.wpi.first.wpilibj.P
 	
 	public void setDrives(double x, double y)
 	{
-			x = Math.abs(x) > 0.2 ? x : 0;
-			y = Math.abs(y) > 0.2 ? y : 0;
+		x = Math.abs(x) > 0.2 ? x : 0;
+		y = Math.abs(y) > 0.2 ? y : 0;
+		
+		if(x != 0)
+		{
+			x = sgn(x) * ((Math.abs(x) - RobotMap.deadband) / (1 - RobotMap.deadband));
+		}
 			
-			if(x != 0)
-			{
-				x = sgn(x) * ((Math.abs(x) - RobotMap.deadband) / (1 - RobotMap.deadband));
-			}
+		if(y != 0)
+		{
+			y = sgn(y) * ((Math.abs(y) - RobotMap.deadband) / (1 - RobotMap.deadband));			}
 			
-			if(y != 0)
-			{
-				y = sgn(y) * ((Math.abs(y) - RobotMap.deadband) / (1 - RobotMap.deadband));
-			}
+		double right = y + x;
+		double left = (y - x) * -1;	
+		double absLeft = Math.abs(left);
+		double absRight = Math.abs(right);
+		double normalLeft;
+		double normalRight;
 			
-			double right = y + x;
-			double left = (y - x) * -1;
-			double absLeft = Math.abs(left);
-			double absRight = Math.abs(right);
-			double normalLeft;
-			double normalRight;
+		if(absLeft > absRight && absLeft > 1)
+		{
+			normalLeft = left / absLeft;
+			normalRight = right / absLeft;
+		}
 			
-			if(absLeft > absRight && absLeft > 1)
-			{
-				normalLeft = left / absLeft;
-				normalRight = right / absLeft;
-			}
+		else if(absRight > absLeft && absRight > 1)
+		{
+			normalLeft = left / absRight;
+			normalRight = right / absRight;
+		}
 			
-			else if(absRight > absLeft && absRight > 1)
-			{
-				normalLeft = left / absRight;
-				normalRight = right / absRight;
-			}
+		else
+		{
+			normalLeft = left;
+			normalRight = right;
+		}
 			
-			else
-			{
-				normalLeft = left;
-				normalRight = right;
-			}
-			
-			leftDrive.set(normalLeft);
-			rightDrive.set(normalRight);
+		leftDrive.set(normalLeft);
+		rightDrive.set(normalRight);
+	}
+	
+	public void reverseDrive(double x, double y)
+	{
+		x = Math.abs(x) > 0.2 ? x : 0;
+		y = Math.abs(y) > 0.2 ? y : 0;
+		
+		if(x != 0)
+		{
+			x = -1 * (sgn(x) * ((Math.abs(x) - RobotMap.deadband) / (1 - RobotMap.deadband)));
+		}
+		
+		if(y != 0)
+		{
+			y = -1 * (sgn(y) * ((Math.abs(y) - RobotMap.deadband) / (1 - RobotMap.deadband)));
+		}
+		
+		double right = y + x;
+		double left = (y - x) * -1;
+		double absLeft = Math.abs(left);
+		double absRight = Math.abs(right);
+		double normalLeft;
+		double normalRight;
+		
+		if(absLeft > absRight && absLeft > 1)
+		{
+			normalLeft = left / absLeft;
+			normalRight = right / absLeft;
+		}
+		
+		else if(absRight > absLeft && absRight > 1)
+		{
+			normalLeft = left / absRight;
+			normalRight = right / absRight;
+		}
+		
+		else
+		{
+			normalLeft = left;
+			normalRight = right;
+		}
+		
+		leftDrive.set(normalLeft);
+		rightDrive.set(normalRight);
 	}
 	
 	double sgn(double x)

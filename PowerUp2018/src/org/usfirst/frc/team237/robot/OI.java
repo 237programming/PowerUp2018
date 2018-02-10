@@ -20,6 +20,7 @@ public class OI
 	public static Button climbOff = new JoystickButton(driveJoystick, 8);
 	public static Button grabberOpen = new JoystickButton(driveJoystick, 6);
 	public static Button grabberClose = new JoystickButton(driveJoystick, 7);
+	public static Button reverseDrive = new JoystickButton(driveJoystick, 9);
 	
 //	public OI()
 //	{
