@@ -1,11 +1,13 @@
 package org.usfirst.frc.team237.robot.subsystems;
 
 import org.usfirst.frc.team237.robot.RobotMap;
+import edu.wpi.first.wpilibj.Timer;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,7 +21,12 @@ public class CubeHandlerSubsystem extends Subsystem
 	private WPI_TalonSRX rightIntake = new WPI_TalonSRX(RobotMap.intake2);
 	private WPI_TalonSRX elevator = new WPI_TalonSRX(RobotMap.elevator1);
 	private static DoubleSolenoid grabber = new DoubleSolenoid(RobotMap.solenoidCAN, 0, RobotMap.grabber);
-	
+//	private boolean currentState = true;
+//	private boolean pastState = false;
+//	private DigitalInput cubeSensor = new DigitalInput(0);
+//	public Timer cubeSensorTimer = new Timer();
+//	private int time;
+
 	public CubeHandlerSubsystem()
 	{
 		leftIntake.set(ControlMode.PercentOutput,0);
@@ -82,6 +89,36 @@ public class CubeHandlerSubsystem extends Subsystem
 		SmartDashboard.putNumber("Elevator", getEncPos());
 	}
 	
+//	public void cubeSensor()
+//	{
+//		if(cubeSensor.get() == true)
+//		{
+//			if(pastState == false)
+//			{
+//				if(currentState == true)
+//					currentState = false;
+//				else
+//					currentState = true;
+//			}
+//			pastState = true;
+//		}
+//		else
+//			pastState = false;
+//		if(currentState == false)
+//		{
+//			fowardIntake();
+//			if(cubeSensorTimer.getFPGATimestamp() > time + .1);
+//			{
+//				offIntake();
+//			}
+//			actuate(false);
+//			fowardIntake();
+//			if(cubeSensorTimer.getFPGATimestamp() > time + .25);
+//			{
+//				offIntake();
+//			}
+//		}
+//	}
     public void initDefaultCommand() 
     {
         // Set the default command for a subsystem here.

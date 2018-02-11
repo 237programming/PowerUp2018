@@ -10,9 +10,12 @@ package org.usfirst.frc.team237.robot;
 
 import org.usfirst.frc.team237.robot.commands.AutonomousCenterLeft;
 import org.usfirst.frc.team237.robot.commands.AutonomousCenterRight;
+import org.usfirst.frc.team237.robot.commands.AutonomousLeftLeft;
+import org.usfirst.frc.team237.robot.commands.AutonomousLeftRight;
 import org.usfirst.frc.team237.robot.commands.AutonomousRightLeft;
 import org.usfirst.frc.team237.robot.commands.AutonomousRightRight;
-import org.usfirst.frc.team237.robot.commands.ElevatorUp;
+import org.usfirst.frc.team237.robot.commands.HighElevator;
+import org.usfirst.frc.team237.robot.commands.LowElevator;
 import org.usfirst.frc.team237.robot.commands.RotateTest;
 import org.usfirst.frc.team237.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.CubeHandlerSubsystem;
@@ -45,11 +48,13 @@ public class Robot extends TimedRobot
 	public static PowerDistributionPanel PDP = new PowerDistributionPanel(50);
 	private boolean previousButtonState = false;
 	private boolean driveState = true;
-//	private static final String kDefaultAuto = "Default";
-//	private static final String kCustomAuto = "My Auto";
+//	private static String right = "Right Station";
+//	private static String left = "Left Station";
+//	private static String center = "Center Station";
 //	private String m_autoSelected;
 	Command autonomousCommand;
-//	SendableChooser configChooser;
+//	Command teleopCommand;
+//	SendableChooser<Command> configChooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -64,6 +69,13 @@ public class Robot extends TimedRobot
 //		m_chooser = new SendableChooser<Command>();
 //		m_chooser.addDefault("Center Left", new AutonomousCenterLeft());
 //		SmartDashboard.putData("Auto choices", m_chooser);
+//		configChooser.addDefault("Right", right);
+//		configChooser.addObject("Left", left);
+//		configChooser = new SendableChooser<Command>();
+//		configChooser.addDefault("Right Left", new AutonomousRightLeft());
+//		configChooser.addObject("Other", new AutonomousRightRight());
+//		SmartDashboard.putData("Starting Position", configChooser);
+
 		driveTrain.zeroEnc();
 		driveTrain.zeroYaw();
 		climber.zeroEnc();
@@ -88,20 +100,52 @@ public class Robot extends TimedRobot
 //		 		kDefaultAuto);
 		driveTrain.zeroYaw();
 		String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
+//		if(configChooser.getSelected().equals(right))
+//		{
+			gameData = DriverStation.getInstance().getGameSpecificMessage();
                 if(gameData.length() > 0)
                 {
                 	if(gameData.charAt(0) == 'L')
-                	{
                 		autonomousCommand = new AutonomousRightLeft();
-                	} 
                 	else 
-                	{
                 		autonomousCommand = new AutonomousRightRight();
-                	}
                 }
-		//autonomousCommand = (Command) m_chooser.getSelected();
-		autonomousCommand.start();
+//		}
+		
+//		if(configChooser.getSelected().equals(center))
+//		{
+//			gameData = DriverStation.getInstance().getGameSpecificMessage();
+//                if(gameData.length() > 0)
+//                {
+//                	if(gameData.charAt(0) == 'L')
+//                	{
+//                		autonomousCommand = new AutonomousCenterLeft();
+//                	} 
+//                	else 
+//                	{
+//                		autonomousCommand = new AutonomousCenterRight();
+//                	}
+//                }
+//		}
+		
+//		if(configChooser.getSelected().equals(left))
+//		{
+//			gameData = DriverStation.getInstance().getGameSpecificMessage();
+//                if(gameData.length() > 0)
+//                {
+//                	if(gameData.charAt(0) == 'L')
+//                	{
+//                		autonomousCommand = new AutonomousLeftLeft();
+//                	} 
+//                	else 
+//                	{
+//                		autonomousCommand = new AutonomousLeftRight();
+//                	}
+//                }
+//		}
+//		autonomousCommand = (Command) configChooser.getSelected();
+		if(autonomousCommand != null) 
+			autonomousCommand.start();
 		
 //		System.out.println("Auto selected: " + m_autoSelected);
 	}
@@ -136,14 +180,26 @@ public class Robot extends TimedRobot
 	{
 		SmartDashboard.putBoolean("Reverse Drive", driveState);
 		
-		driveTrain.setDrives(OI.driveJoystick.getY(),OI.driveJoystick.getX());
-		if(OI.elevatorUp.get() == true)
+		driveTrain.setDrives(OI.controller.getRawAxis(5),OI.controller.getRawAxis(2));
+		if(OI.controller.getRawAxis(1) < -.5)
 			cubeHandler.upElevator();
-		else if(OI.elevatorDown.get() == true && OI.elevatorUp.get() == false)
+		else if(OI.controller.getRawAxis(1) > .5)
 			cubeHandler.downElevator();
 		else
 			cubeHandler.offElevator();
 		
+//		if(OI.highElevator.get() == true)
+//		{
+//			teleopCommand = new HighElevator();
+//			teleopCommand.start();
+//			Scheduler.getInstance().run();
+//		}
+//		if(OI.lowElevator.get() == true)
+//		{
+//			teleopCommand = new LowElevator();
+//			teleopCommand.start();
+//			Scheduler.getInstance().run();
+//		}
 		//Check for press of reverse drive button
 		if(OI.reverseDrive.get() == true)
 		{
@@ -164,13 +220,13 @@ public class Robot extends TimedRobot
 			
 		// if drive state reversed, reverse controls
 		if(driveState == false)	
-			driveTrain.reverseDrive(OI.driveJoystick.getY(), OI.driveJoystick.getX());	
+			driveTrain.reverseDrive(OI.controller.getRawAxis(5), OI.controller.getRawAxis(2));	
 		else
-			driveTrain.setDrives(OI.driveJoystick.getY(),OI.driveJoystick.getX());
+			driveTrain.setDrives(OI.controller.getRawAxis(5),OI.controller.getRawAxis(2));
 		
-		if(OI.intake.get() == true)
+		if(OI.controller.getRawAxis(4) > .5)
 			cubeHandler.fowardIntake();
-		else if(OI.outtake.get() == true && OI.intake.get() == false)
+		else if(OI.controller.getRawAxis(3) > .5)
 			cubeHandler.backwardIntake();
 		else
 			cubeHandler.offIntake();
@@ -179,6 +235,8 @@ public class Robot extends TimedRobot
 			cubeHandler.actuate(true);
 		if(OI.grabberClose.get() == true)
 			cubeHandler.actuate(false);	
+		
+//		cubeHandler.cubeSensor();
 		
 		driveTrain.post();
 		climber.post();

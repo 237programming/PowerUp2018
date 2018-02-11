@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ElevatorUp extends Command 
+public class HighElevator extends Command 
 {
 
-    public ElevatorUp() 
+    public HighElevator() 
     {
     	requires(Robot.cubeHandler);
         // Use requires() here to declare subsystem dependencies
@@ -27,13 +27,13 @@ public class ElevatorUp extends Command
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
-    	System.out.println("Goin' Up");
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() 
     {
-    	if(Robot.cubeHandler.getEncPos() > RobotMap.elevatorMax)
+    	if(Robot.cubeHandler.getEncPos() > RobotMap.topElevator)
     	{
     		return true;
     	}

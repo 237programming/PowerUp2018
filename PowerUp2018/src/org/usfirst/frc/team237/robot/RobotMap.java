@@ -13,8 +13,8 @@ public class RobotMap
 	public static int intake2 = 10;
 	public static int elevator1 = 11;
 	public static double deadband = 0.1;
-	public static double elevatorMax = 10000;
-	public static double elevatorMin = 0;
+	public static double botElevator = -1000;
+	public static double topElevator = -100;
 
 	//climber shit
 	public static int climber = 12;
