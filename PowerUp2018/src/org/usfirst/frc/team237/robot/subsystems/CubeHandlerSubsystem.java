@@ -19,13 +19,14 @@ public class CubeHandlerSubsystem extends Subsystem
 {
 	private WPI_TalonSRX leftIntake = new WPI_TalonSRX(RobotMap.intake1);
 	private WPI_TalonSRX rightIntake = new WPI_TalonSRX(RobotMap.intake2);
-	private WPI_TalonSRX elevator = new WPI_TalonSRX(RobotMap.elevator1);
+	public WPI_TalonSRX elevator = new WPI_TalonSRX(RobotMap.elevator1);
 	private static DoubleSolenoid grabber = new DoubleSolenoid(RobotMap.solenoidCAN, 0, RobotMap.grabber);
-//	private boolean currentState = true;
-//	private boolean pastState = false;
-//	private DigitalInput cubeSensor = new DigitalInput(0);
-//	public Timer cubeSensorTimer = new Timer();
-//	private int time;
+	private boolean autoStatus = false;
+	private boolean pastStatus = false;
+	private boolean manualStatus = false;
+	private DigitalInput cubeSensor = new DigitalInput(0);
+	public Timer cubeSensorTimer = new Timer();
+	private double time;
 
 	public CubeHandlerSubsystem()
 	{
@@ -47,20 +48,23 @@ public class CubeHandlerSubsystem extends Subsystem
 	
 	public void fowardIntake()
 	{
-		leftIntake.set(.7);
-		rightIntake.set(.7);
+		leftIntake.set(1);
+		rightIntake.set(1);
+		manualStatus = true;
 	}
 	
 	public void backwardIntake()
 	{
 		leftIntake.set(-1);
 		rightIntake.set(-1);
+		manualStatus = true;
 	}
 	
 	public void offIntake()
 	{
 		rightIntake.set(0);
 		leftIntake.set(0);
+		manualStatus = false;		
 	}
 	
 	public void upElevator()
@@ -87,38 +91,37 @@ public class CubeHandlerSubsystem extends Subsystem
 	public void post()
 	{
 		SmartDashboard.putNumber("Elevator", getEncPos());
+		SmartDashboard.putBoolean("Cube Sensor", cubeSensor.get());
 	}
 	
-//	public void cubeSensor()
-//	{
-//		if(cubeSensor.get() == true)
-//		{
-//			if(pastState == false)
-//			{
-//				if(currentState == true)
-//					currentState = false;
-//				else
-//					currentState = true;
-//			}
-//			pastState = true;
-//		}
-//		else
-//			pastState = false;
-//		if(currentState == false)
-//		{
+	public void cubeSensor()
+	{
+		if(manualStatus == true)
+		{
+			autoStatus = false;
+			pastStatus = false;
+			//stop timer here?
+		}
+		if(cubeSensor.get() == true)
+			autoStatus = true;
+		if(autoStatus == true && pastStatus == false)
+		{
+			actuate(false);
+			time = cubeSensorTimer.getFPGATimestamp();
+			
 //			fowardIntake();
-//			if(cubeSensorTimer.getFPGATimestamp() > time + .1);
-//			{
-//				offIntake();
-//			}
-//			actuate(false);
-//			fowardIntake();
-//			if(cubeSensorTimer.getFPGATimestamp() > time + .25);
-//			{
-//				offIntake();
-//			}
-//		}
-//	}
+		}
+		pastStatus = autoStatus;
+		if(autoStatus == true)
+		{
+			if(cubeSensorTimer.getFPGATimestamp() > time + 2)
+			{
+				offIntake();
+				autoStatus = false;
+				//stop timer?
+			}
+		}
+	}
     public void initDefaultCommand() 
     {
         // Set the default command for a subsystem here.

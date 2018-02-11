@@ -52,8 +52,8 @@ public class Robot extends TimedRobot
 //	private static String left = "Left Station";
 //	private static String center = "Center Station";
 //	private String m_autoSelected;
+	Command teleopCommand;
 	Command autonomousCommand;
-//	Command teleopCommand;
 //	SendableChooser<Command> configChooser;
 
 	/**
@@ -180,7 +180,8 @@ public class Robot extends TimedRobot
 	{
 		SmartDashboard.putBoolean("Reverse Drive", driveState);
 		
-		driveTrain.setDrives(OI.controller.getRawAxis(5),OI.controller.getRawAxis(2));
+//		driveTrain.setDrives(OI.controller.getRawAxis(5),OI.controller.getRawAxis(2));
+		driveTrain.setDrives(OI.driveJoystick.getY(), OI.driveJoystick.getX());
 		if(OI.controller.getRawAxis(1) < -.5)
 			cubeHandler.upElevator();
 		else if(OI.controller.getRawAxis(1) > .5)
@@ -190,9 +191,8 @@ public class Robot extends TimedRobot
 		
 //		if(OI.highElevator.get() == true)
 //		{
-//			teleopCommand = new HighElevator();
+//			teleopCommand = (Command) new HighElevator();
 //			teleopCommand.start();
-//			Scheduler.getInstance().run();
 //		}
 //		if(OI.lowElevator.get() == true)
 //		{
@@ -220,9 +220,13 @@ public class Robot extends TimedRobot
 			
 		// if drive state reversed, reverse controls
 		if(driveState == false)	
-			driveTrain.reverseDrive(OI.controller.getRawAxis(5), OI.controller.getRawAxis(2));	
+//			driveTrain.reverseDrive(OI.controller.getRawAxis(5), OI.controller.getRawAxis(2));
+			driveTrain.reverseDrive(OI.driveJoystick.getY(), OI.driveJoystick.getX());
+
 		else
-			driveTrain.setDrives(OI.controller.getRawAxis(5),OI.controller.getRawAxis(2));
+//			driveTrain.setDrives(OI.controller.getRawAxis(5),OI.controller.getRawAxis(2));
+			driveTrain.setDrives(OI.driveJoystick.getY(), OI.driveJoystick.getX());
+
 		
 		if(OI.controller.getRawAxis(4) > .5)
 			cubeHandler.fowardIntake();
@@ -236,7 +240,7 @@ public class Robot extends TimedRobot
 		if(OI.grabberClose.get() == true)
 			cubeHandler.actuate(false);	
 		
-//		cubeHandler.cubeSensor();
+		cubeHandler.cubeSensor();
 		
 		driveTrain.post();
 		climber.post();

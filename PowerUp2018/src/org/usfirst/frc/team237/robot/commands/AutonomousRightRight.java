@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutonomousRightRight extends Command 
 {
+	public Timer elevatorTimer = new Timer();
 	public Timer backwardsIntakeTimer = new Timer();
 	public double time;
 	private enum State
@@ -18,6 +19,14 @@ public class AutonomousRightRight extends Command
 		firstMove,
 		firstTurn,
 		outtake,
+		secondTurn,
+		elevator,
+		secondMove,
+		thirdTurn,
+		thirdMove,
+		intake,
+		elevator2,
+		outtake2,
 		finished
 	};
 	
@@ -78,10 +87,121 @@ public class AutonomousRightRight extends Command
     		break;
     	case outtake:
     		Robot.cubeHandler.backwardIntake();
-    		if(backwardsIntakeTimer.getFPGATimestamp() > 2 + time)
+    		if(backwardsIntakeTimer.getFPGATimestamp() > 1 + time)
     		{
     			Robot.cubeHandler.offIntake();
-    			currentState = State.finished;
+    			Robot.cubeHandler.actuate(true);
+		    	Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
+				Robot.driveTrain.rotateTo(0);
+				time = Timer.getFPGATimestamp();
+		    	currentState = State.secondTurn;
+    		}
+    		break;
+    	case secondTurn:
+    		Robot.driveTrain.pidDrive(0);
+    		if(Timer.getFPGATimestamp() > time + 1)
+    		{
+    			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+//		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
+//		    	Robot.driveTrain.rotateTo(0);
+		    	time = elevatorTimer.getFPGATimestamp();
+		    	currentState = State.elevator;
+    		}
+    		break;
+    	case elevator:
+    		Robot.cubeHandler.elevator.set(1);
+    		Robot.cubeHandler.downElevator();
+    		if(elevatorTimer.getFPGATimestamp() > time + 2.5)
+    		{
+    			Robot.cubeHandler.offElevator();
+ //   			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
+		    	Robot.driveTrain.rotateTo(0);
+		    	time = Timer.getFPGATimestamp();
+		    	currentState = State.secondMove;
+    		}
+    		break;
+    	case secondMove:
+    		Robot.driveTrain.pidDrive(-.8);
+    		if(Robot.driveTrain.getEncPos() > 3000)
+    		{
+    			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
+		    	Robot.driveTrain.rotateTo(-150);
+		    	time = Timer.getFPGATimestamp();
+		    	currentState = State.thirdTurn;
+    		}
+    		break;
+    	case thirdTurn:
+    		Robot.driveTrain.pidDrive(0);
+    		if(Timer.getFPGATimestamp() > time + 1)
+    		{
+    			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
+		    	Robot.driveTrain.rotateTo(-150);
+		    	currentState = State.thirdMove;
+    		}
+    		break;
+    	case thirdMove:
+    		Robot.driveTrain.pidDrive(-.8);
+    		if(Robot.driveTrain.getEncPos() > 450)
+    		{
+    			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
+//		    	Robot.driveTrain.rotateTo(-70);
+		    	time = Timer.getFPGATimestamp();
+		    	currentState = State.intake;
+    		}
+    	break;
+    	case intake:
+    		Robot.cubeHandler.fowardIntake();
+    		Robot.cubeHandler.cubeSensor();
+    		if(Timer.getFPGATimestamp() > time + 1)
+    		{
+    			Robot.cubeHandler.offIntake();
+    			Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+				time = elevatorTimer.getFPGATimestamp();
+				currentState = State.elevator2;
+    		}
+    		break;
+    	case elevator2:
+    		Robot.cubeHandler.elevator.set(1);
+    		Robot.cubeHandler.upElevator();
+    		if(elevatorTimer.getFPGATimestamp() > time + 2.25)
+    		{
+    			Robot.cubeHandler.offElevator();
+ //   			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+		    	time = backwardsIntakeTimer.getFPGATimestamp();
+		    	currentState = State.outtake2;
+    		}
+    		break;
+    	case outtake2:
+    		Robot.cubeHandler.backwardIntake();
+    		if(backwardsIntakeTimer.getFPGATimestamp() > 1 + time)
+    		{
+    			Robot.cubeHandler.offIntake();
+    			Robot.cubeHandler.actuate(true);
+		    	Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+				time = Timer.getFPGATimestamp();
+		    	currentState = State.finished;
     		}
     		break;
     	default:

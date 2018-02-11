@@ -101,7 +101,7 @@ public class DriveSubsystem extends Subsystem implements edu.wpi.first.wpilibj.P
 		
 		if(y != 0)
 		{
-			y = -1 * (sgn(y) * ((Math.abs(y) - RobotMap.deadband) / (1 - RobotMap.deadband)));
+			y =  (sgn(y) * ((Math.abs(y) - RobotMap.deadband) / (1 - RobotMap.deadband)));
 		}
 		
 		double right = y + x;
