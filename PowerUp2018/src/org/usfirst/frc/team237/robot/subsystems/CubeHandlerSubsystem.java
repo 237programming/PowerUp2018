@@ -69,12 +69,12 @@ public class CubeHandlerSubsystem extends Subsystem
 	
 	public void upElevator()
 	{
-		elevator.set(.8);
+		elevator.set(1);
 	}
 	
 	public void downElevator()
 	{
-		elevator.set(-.8);
+		elevator.set(-1);
 	}
 	
 	public void offElevator()
