@@ -52,7 +52,8 @@ public class Robot extends TimedRobot
 //	private static String left = "Left Station";
 //	private static String center = "Center Station";
 //	private String m_autoSelected;
-	Command teleopCommand;
+	private HighElevator upCommand = new HighElevator();
+	private LowElevator downCommand = new LowElevator();
 	Command autonomousCommand;
 //	SendableChooser<Command> configChooser;
 
@@ -189,17 +190,15 @@ public class Robot extends TimedRobot
 		else
 			cubeHandler.offElevator();
 		
-//		if(OI.highElevator.get() == true)
-//		{
-//			teleopCommand = (Command) new HighElevator();
-//			teleopCommand.start();
-//		}
-//		if(OI.lowElevator.get() == true)
-//		{
-//			teleopCommand = new LowElevator();
-//			teleopCommand.start();
-//			Scheduler.getInstance().run();
-//		}
+		if(OI.highElevator.get() == true && !upCommand.isRunning())
+		{
+			upCommand.start();
+			
+		}
+		if(OI.lowElevator.get() == true  && !downCommand.isRunning())
+		{
+			downCommand.start();
+		}
 		//Check for press of reverse drive button
 		if(OI.reverseDrive.get() == true)
 		{

@@ -43,6 +43,7 @@ public class LowElevator extends Command
     // Called once after isFinished returns true
     protected void end() 
     {
+    	System.out.println("Done going up!");
     	Robot.cubeHandler.offElevator();
     }
 
@@ -50,6 +51,7 @@ public class LowElevator extends Command
     // subsystems is scheduled to run
     protected void interrupted() 
     {
+    	System.out.println("down interupted");
     	Robot.cubeHandler.offElevator();
     }
 }
