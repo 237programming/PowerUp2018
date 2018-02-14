@@ -2,7 +2,6 @@ package org.usfirst.frc.team237.robot.commands;
 
 import org.usfirst.frc.team237.robot.Robot;
 import org.usfirst.frc.team237.robot.RobotMap;
-import org.usfirst.frc.team237.robot.commands.AutonomousRightRight.State;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -144,7 +143,7 @@ public class AutonomousCenterLeft extends Command
     		break;
     	case fourthMove:
     		Robot.driveTrain.pidDrive(.8);
-    		if(Robot.driveTrain.getEncPos() > 250)
+    		if(Robot.driveTrain.getEncPos() < -250)
     		{
     			Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();

@@ -102,30 +102,30 @@ public class Robot extends TimedRobot
 		String gameData;
 //		if(configChooser.getSelected().equals(right))
 //		{
-			gameData = DriverStation.getInstance().getGameSpecificMessage();
-                if(gameData.length() > 0)
-                {
-                	if(gameData.charAt(0) == 'L')
-                		autonomousCommand = new AutonomousRightLeft();
-                	else 
-                		autonomousCommand = new AutonomousRightRight();
-                }
-//		}
-		
-//		if(configChooser.getSelected().equals(center))
-//		{
 //			gameData = DriverStation.getInstance().getGameSpecificMessage();
 //                if(gameData.length() > 0)
 //                {
 //                	if(gameData.charAt(0) == 'L')
-//                	{
-//                		autonomousCommand = new AutonomousCenterLeft();
-//                	} 
+//                		autonomousCommand = new AutonomousRightLeft();
 //                	else 
-//                	{
-//                		autonomousCommand = new AutonomousCenterRight();
-//                	}
+//                		autonomousCommand = new AutonomousRightRight();
 //                }
+//		}
+		
+//		if(configChooser.getSelected().equals(center))
+//		{
+			gameData = DriverStation.getInstance().getGameSpecificMessage();
+                if(gameData.length() > 0)
+                {
+                	if(gameData.charAt(0) == 'L')
+                	{
+                		autonomousCommand = new AutonomousCenterLeft();
+                	} 
+                	else 
+                	{
+                		autonomousCommand = new AutonomousCenterRight();
+                	}
+                }
 //		}
 		
 //		if(configChooser.getSelected().equals(left))
