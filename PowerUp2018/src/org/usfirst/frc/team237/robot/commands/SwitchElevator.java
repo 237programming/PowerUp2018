@@ -8,10 +8,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LowElevator extends Command 
+public class SwitchElevator extends Command 
 {
-
-    public LowElevator() 
+	private boolean isGoingUp;
+	
+    public SwitchElevator() 
     {
     	requires(Robot.cubeHandler);
         // Use requires() here to declare subsystem dependencies
@@ -19,9 +20,18 @@ public class LowElevator extends Command
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() 
+    protected void initialize()
     {
-    	Robot.cubeHandler.downElevator();
+    	if(Robot.cubeHandler.getEncPos() > RobotMap.midElevator)
+    	{
+    		Robot.cubeHandler.downElevator();
+    		isGoingUp = false;
+    	}
+    	if(Robot.cubeHandler.getEncPos() < RobotMap.midElevator)
+    	{
+    		Robot.cubeHandler.upElevator();
+    		isGoingUp = true;
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,9 +43,15 @@ public class LowElevator extends Command
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() 
     {
-    	if(Robot.cubeHandler.getEncPos() < RobotMap.botElevator)
+    	if(isGoingUp == false)
     	{
-    		return true;
+    		if(Robot.cubeHandler.getEncPos() > RobotMap.swElevator)
+    			return true;
+    	}
+    	if(isGoingUp == true)
+    	{
+    		if(Robot.cubeHandler.getEncPos() < RobotMap.swElevator)
+    			return true;
     	}
         return false;
     }
@@ -43,15 +59,13 @@ public class LowElevator extends Command
     // Called once after isFinished returns true
     protected void end() 
     {
-    	System.out.println("Done going down!");
-    	Robot.cubeHandler.offElevator();
+    	
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted() 
+    protected void interrupted()
     {
-    	System.out.println("down interupted");
-    	Robot.cubeHandler.offElevator();
+    	
     }
 }

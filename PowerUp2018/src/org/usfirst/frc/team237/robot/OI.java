@@ -1,7 +1,9 @@
 package org.usfirst.frc.team237.robot;
 
+import org.usfirst.frc.team237.robot.commands.ExchangeElevator;
 import org.usfirst.frc.team237.robot.commands.HighElevator;
 import org.usfirst.frc.team237.robot.commands.LowElevator;
+import org.usfirst.frc.team237.robot.commands.SwitchElevator;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -21,6 +23,8 @@ public class OI
 	public static Button grabberClose = new JoystickButton(controller, 6);
 //	public static Button reverseDrive = new JoystickButton(controller, 9);
 	public static Button highElevator = new JoystickButton(controller, 4);
+	public static Button switchElevator = new JoystickButton(controller, 1);
+	public static Button exchangeElevator = new JoystickButton(controller, 3);
 	public static Button lowElevator = new JoystickButton(controller, 2);
 	
 //	Joystick buttons
@@ -35,9 +39,11 @@ public class OI
 //	public static Button grabberClose = new JoystickButton(driveJoystick, 7);
 	public static Button reverseDrive = new JoystickButton(driveJoystick, 3);
 	
-//	public OI()
-//	{
-//		elevatorUp.whenPressed(new ElevatorUp());
-//		elevatorDown.whenPressed(new ElevatorDown());
-//	}
+	public OI()
+	{
+		highElevator.whenPressed(new HighElevator());
+		switchElevator.whenPressed(new SwitchElevator());
+		exchangeElevator.whenPressed(new ExchangeElevator());
+		lowElevator.whenPressed(new LowElevator());
+	}
 }

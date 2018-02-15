@@ -13,8 +13,13 @@ public class RobotMap
 	public static int intake2 = 10;
 	public static int elevator1 = 11;
 	public static double deadband = 0.1;
-	public static double botElevator = -1000;
-	public static double topElevator = -100;
+	public static double botElevator = -10000;
+	//EncCount @ bottom = -10638
+	public static double exElevator = -9000;
+	public static double midElevator = -5000;
+	public static double swElevator = -2000;
+	public static double topElevator = -400;
+	//EncCount @ top = -38
 
 	//climber shit
 	public static int climber = 12;

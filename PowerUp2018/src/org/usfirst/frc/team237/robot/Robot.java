@@ -103,30 +103,30 @@ public class Robot extends TimedRobot
 		String gameData;
 //		if(configChooser.getSelected().equals(right))
 //		{
-//			gameData = DriverStation.getInstance().getGameSpecificMessage();
-//                if(gameData.length() > 0)
-//                {
-//                	if(gameData.charAt(0) == 'L')
-//                		autonomousCommand = new AutonomousRightLeft();
-//                	else 
-//                		autonomousCommand = new AutonomousRightRight();
-//                }
-//		}
-		
-//		if(configChooser.getSelected().equals(center))
-//		{
 			gameData = DriverStation.getInstance().getGameSpecificMessage();
                 if(gameData.length() > 0)
                 {
                 	if(gameData.charAt(0) == 'L')
-                	{
-                		autonomousCommand = new AutonomousCenterLeft();
-                	} 
+                		autonomousCommand = new AutonomousRightLeft();
                 	else 
-                	{
-                		autonomousCommand = new AutonomousCenterRight();
-                	}
+                		autonomousCommand = new AutonomousRightRight();
                 }
+//		}
+		
+//		if(configChooser.getSelected().equals(center))
+//		{
+//			gameData = DriverStation.getInstance().getGameSpecificMessage();
+//                if(gameData.length() > 0)
+//                {
+//                	if(gameData.charAt(0) == 'L')
+//                	{
+//                		autonomousCommand = new AutonomousCenterLeft();
+//                	} 
+//                	else 
+//                	{
+//                		autonomousCommand = new AutonomousCenterRight();
+//                	}
+//                }
 //		}
 		
 //		if(configChooser.getSelected().equals(left))
@@ -158,9 +158,9 @@ public class Robot extends TimedRobot
 	public void autonomousPeriodic() 
 	{
 		Scheduler.getInstance().run();
-		driveTrain.post();
-		climber.post();
-		cubeHandler.post();
+//		driveTrain.post();
+//		climber.post();
+//		cubeHandler.post();
 //		switch (m_autoSelected) 
 //		{
 //			case kCustomAuto:
@@ -179,6 +179,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopPeriodic() 
 	{
+		Scheduler.getInstance().run();
 		SmartDashboard.putBoolean("Reverse Drive", driveState);
 		
 //		driveTrain.setDrives(OI.controller.getRawAxis(5),OI.controller.getRawAxis(2));
@@ -190,15 +191,15 @@ public class Robot extends TimedRobot
 		else
 			cubeHandler.offElevator();
 		
-		if(OI.highElevator.get() == true && !upCommand.isRunning())
-		{
-			upCommand.start();
-			
-		}
-		if(OI.lowElevator.get() == true  && !downCommand.isRunning())
-		{
-			downCommand.start();
-		}
+//		if(OI.highElevator.get() == true && !upCommand.isRunning())
+//		{
+//			upCommand.start();
+//			
+//		}
+//		if(OI.lowElevator.get() == true  && !downCommand.isRunning())
+//		{
+//			downCommand.start();
+//		}
 		//Check for press of reverse drive button
 		if(OI.reverseDrive.get() == true)
 		{
