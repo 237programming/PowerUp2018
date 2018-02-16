@@ -7,8 +7,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PIDController;
@@ -23,7 +21,6 @@ public class DriveSubsystem extends Subsystem implements edu.wpi.first.wpilibj.P
 	private WPI_TalonSRX leftDriveSlave = new WPI_TalonSRX(RobotMap.driveTalon2);
 	private WPI_TalonSRX rightDrive = new WPI_TalonSRX(RobotMap.driveTalon3);
 	private WPI_TalonSRX rightDriveSlave = new WPI_TalonSRX(RobotMap.driveTalon4);
-//	private AHRS gyro = new AHRS(SerialPort.Port.kUSB, AHRS.SerialDataType.kProcessedData, (byte) 200);
 	private AHRS gyro = new AHRS(SPI.Port.kMXP);
 	private PIDController angularPID = new PIDController(0.1, 0.0, 0.1, gyro, this);
 	private double PIDOutput = 0;
@@ -39,7 +36,6 @@ public class DriveSubsystem extends Subsystem implements edu.wpi.first.wpilibj.P
 		angularPID.setOutputRange(-0.8, 0.8);
 		angularPID.setPercentTolerance(30);
 		angularPID.setContinuous();
-		
 		
 		gyro.reset();
 		
@@ -58,7 +54,8 @@ public class DriveSubsystem extends Subsystem implements edu.wpi.first.wpilibj.P
 			
 		if(y != 0)
 		{
-			y = sgn(y) * ((Math.abs(y) - RobotMap.deadband) / (1 - RobotMap.deadband));			}
+			y = sgn(y) * ((Math.abs(y) - RobotMap.deadband) / (1 - RobotMap.deadband));			
+		}
 			
 		double right = y + x;
 		double left = (y - x) * -1;	

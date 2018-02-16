@@ -4,7 +4,6 @@ import org.usfirst.frc.team237.robot.RobotMap;
 import edu.wpi.first.wpilibj.Timer;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -25,7 +24,6 @@ public class CubeHandlerSubsystem extends Subsystem
 	private boolean pastStatus = false;
 	private boolean manualStatus = false;
 	private DigitalInput cubeSensor = new DigitalInput(0);
-	public Timer cubeSensorTimer = new Timer();
 	private double time;
 
 	public CubeHandlerSubsystem()
@@ -107,14 +105,14 @@ public class CubeHandlerSubsystem extends Subsystem
 		if(autoStatus == true && pastStatus == false)
 		{
 			actuate(false);
-			time = cubeSensorTimer.getFPGATimestamp();
+			time = Timer.getFPGATimestamp();
 			
 //			fowardIntake();
 		}
 		pastStatus = autoStatus;
 		if(autoStatus == true)
 		{
-			if(cubeSensorTimer.getFPGATimestamp() > time + 2)
+			if(Timer.getFPGATimestamp() > time + 2)
 			{
 				offIntake();
 				autoStatus = false;

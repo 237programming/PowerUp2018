@@ -14,15 +14,9 @@ import org.usfirst.frc.team237.robot.commands.AutonomousLeftLeft;
 import org.usfirst.frc.team237.robot.commands.AutonomousLeftRight;
 import org.usfirst.frc.team237.robot.commands.AutonomousRightLeft;
 import org.usfirst.frc.team237.robot.commands.AutonomousRightRight;
-import org.usfirst.frc.team237.robot.commands.HighElevator;
-import org.usfirst.frc.team237.robot.commands.LowElevator;
-import org.usfirst.frc.team237.robot.commands.RotateTest;
 import org.usfirst.frc.team237.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.CubeHandlerSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.DriveSubsystem;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -48,12 +42,7 @@ public class Robot extends TimedRobot
 	public static PowerDistributionPanel PDP = new PowerDistributionPanel(50);
 	private boolean previousButtonState = false;
 	private boolean driveState = true;
-//	private static String right = "Right Station";
-//	private static String left = "Left Station";
-//	private static String center = "Center Station";
 //	private String m_autoSelected;
-	private HighElevator upCommand = new HighElevator();
-	private LowElevator downCommand = new LowElevator();
 	Command autonomousCommand;
 //	SendableChooser<Command> configChooser;
 
@@ -70,8 +59,6 @@ public class Robot extends TimedRobot
 //		m_chooser = new SendableChooser<Command>();
 //		m_chooser.addDefault("Center Left", new AutonomousCenterLeft());
 //		SmartDashboard.putData("Auto choices", m_chooser);
-//		configChooser.addDefault("Right", right);
-//		configChooser.addObject("Left", left);
 //		configChooser = new SendableChooser<Command>();
 //		configChooser.addDefault("Right Left", new AutonomousRightLeft());
 //		configChooser.addObject("Other", new AutonomousRightRight());
@@ -158,9 +145,6 @@ public class Robot extends TimedRobot
 	public void autonomousPeriodic() 
 	{
 		Scheduler.getInstance().run();
-//		driveTrain.post();
-//		climber.post();
-//		cubeHandler.post();
 //		switch (m_autoSelected) 
 //		{
 //			case kCustomAuto:
@@ -180,10 +164,11 @@ public class Robot extends TimedRobot
 	public void teleopPeriodic() 
 	{
 		Scheduler.getInstance().run();
+		
 		SmartDashboard.putBoolean("Reverse Drive", driveState);
 		
-//		driveTrain.setDrives(OI.controller.getRawAxis(5),OI.controller.getRawAxis(2));
 		driveTrain.setDrives(OI.driveJoystick.getY(), OI.driveJoystick.getX());
+		
 		if(OI.controller.getRawAxis(1) < -.5)
 			cubeHandler.upElevator();
 		else if(OI.controller.getRawAxis(1) > .5)
@@ -191,15 +176,6 @@ public class Robot extends TimedRobot
 		else
 			cubeHandler.offElevator();
 		
-//		if(OI.highElevator.get() == true && !upCommand.isRunning())
-//		{
-//			upCommand.start();
-//			
-//		}
-//		if(OI.lowElevator.get() == true  && !downCommand.isRunning())
-//		{
-//			downCommand.start();
-//		}
 		//Check for press of reverse drive button
 		if(OI.reverseDrive.get() == true)
 		{
@@ -220,14 +196,11 @@ public class Robot extends TimedRobot
 			
 		// if drive state reversed, reverse controls
 		if(driveState == false)	
-//			driveTrain.reverseDrive(OI.controller.getRawAxis(5), OI.controller.getRawAxis(2));
 			driveTrain.reverseDrive(OI.driveJoystick.getY(), OI.driveJoystick.getX());
 
 		else
-//			driveTrain.setDrives(OI.controller.getRawAxis(5),OI.controller.getRawAxis(2));
 			driveTrain.setDrives(OI.driveJoystick.getY(), OI.driveJoystick.getX());
 
-		
 		if(OI.controller.getRawAxis(4) > .5)
 			cubeHandler.fowardIntake();
 		else if(OI.controller.getRawAxis(3) > .5)
@@ -255,8 +228,4 @@ public class Robot extends TimedRobot
 	{
 	
 	}
-	/*
-	 * Location of color plate data=
-	 * http://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/826278-2018-game-data-details
-	 */
 }

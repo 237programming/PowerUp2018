@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -16,6 +17,10 @@ public class ClimberSubsystem extends Subsystem
 {
 	private WPI_TalonSRX climbMotor = new WPI_TalonSRX(RobotMap.climber);
 	private Compressor compressor = new Compressor(51);
+	private static DoubleSolenoid ramp = new DoubleSolenoid(RobotMap.solenoidCAN, 0, RobotMap.ramp);
+	private static DoubleSolenoid hanger = new DoubleSolenoid(RobotMap.solenoidCAN, 0, RobotMap.hanger);
+
+
 	
     public void initDefaultCommand() 
     {
@@ -23,10 +28,26 @@ public class ClimberSubsystem extends Subsystem
         //setDefaultCommand(new MySpecialCommand());
     }	
     
-    public void ClimberSubsystem()
+    public ClimberSubsystem()
    	{
   		climbMotor.set(ControlMode.PercentOutput, 0);
    	}
+    
+    public void releaseRamp(boolean open)
+	{
+		if(open == true)
+			ramp.set(DoubleSolenoid.Value.kForward);
+		else
+			ramp.set(DoubleSolenoid.Value.kReverse);
+	}
+    
+    public void startHang(boolean open)
+	{
+		if(open == true)
+			hanger.set(DoubleSolenoid.Value.kForward);
+		else
+			hanger.set(DoubleSolenoid.Value.kReverse);
+	}
     
     public void climberOn()
    	{

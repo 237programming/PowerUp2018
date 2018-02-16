@@ -122,14 +122,13 @@ public class AutonomousCenterRight extends Command
     			Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
-		    	Robot.driveTrain.rotateTo(0);
-    			time = backwardsIntakeTimer.getFPGATimestamp();
+    			time = Timer.getFPGATimestamp();
     			currentState =  State.outtakeCube;
     		}
     		break;
     	case outtakeCube:
     		Robot.cubeHandler.backwardIntake();
-    		if(backwardsIntakeTimer.getFPGATimestamp() > 1 + time)
+    		if(Timer.getFPGATimestamp() > time + 1)
     		{
     			Robot.cubeHandler.offIntake();
     			Robot.cubeHandler.actuate(true);
