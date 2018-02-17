@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,7 +20,7 @@ public class CubeHandlerSubsystem extends Subsystem
 	private WPI_TalonSRX leftIntake = new WPI_TalonSRX(RobotMap.intake1);
 	private WPI_TalonSRX rightIntake = new WPI_TalonSRX(RobotMap.intake2);
 	public WPI_TalonSRX elevator = new WPI_TalonSRX(RobotMap.elevator1);
-	private static DoubleSolenoid grabber = new DoubleSolenoid(RobotMap.solenoidCAN, 0, RobotMap.grabber);
+	private static Solenoid grabber = new Solenoid(RobotMap.solenoidCAN, RobotMap.grabber);
 	private boolean autoStatus = false;
 	private boolean pastStatus = false;
 	private boolean manualStatus = false;
@@ -38,10 +39,7 @@ public class CubeHandlerSubsystem extends Subsystem
 	
 	public void actuate(boolean open)
 	{
-		if(open == true)
-			grabber.set(DoubleSolenoid.Value.kForward);
-		else
-			grabber.set(DoubleSolenoid.Value.kReverse);
+		grabber.set(open);
 	}
 	
 	public void fowardIntake()
@@ -80,10 +78,20 @@ public class CubeHandlerSubsystem extends Subsystem
 		elevator.set(0);
 	}
 	
+	public void autoElevatorUp(double speed)
+	{
+		elevator.set(speed);
+	}
+	
 	public double getEncPos()
 	{
 		double elevatorEnc = elevator.getSelectedSensorPosition(0);
 		return elevatorEnc;
+	}
+	
+	public void zeroEnc()
+	{
+		elevator.setSelectedSensorPosition(0, 0, 0);
 	}
 	
 	public void post()

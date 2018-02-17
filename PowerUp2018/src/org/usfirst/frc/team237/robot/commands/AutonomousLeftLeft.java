@@ -100,13 +100,21 @@ public class AutonomousLeftLeft extends Command
     // Called once after isFinished returns true
     protected void end() 
     {
-    	
+    	Robot.driveTrain.disableRotateTo();
+    	Robot.driveTrain.setDrives(0, 0);
+    	Robot.cubeHandler.offElevator();
+    	Robot.cubeHandler.offIntake();
+    	Robot.driveTrain.zeroEnc();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() 
     {
-    	
+    	Robot.driveTrain.disableRotateTo();
+    	Robot.driveTrain.setDrives(0, 0);
+    	Robot.cubeHandler.offElevator();
+    	Robot.cubeHandler.offIntake();
+    	Robot.driveTrain.zeroEnc();
     }
 }

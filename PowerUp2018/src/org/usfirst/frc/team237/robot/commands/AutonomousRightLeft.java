@@ -14,6 +14,8 @@ public class AutonomousRightLeft extends Command
 	private enum State
 	{
 		start,
+		bringElevatorUp,
+		pause,
 		movePastSwitch,
 		turn90ForLongMove,
 		moveAlongSwitch,
@@ -42,6 +44,7 @@ public class AutonomousRightLeft extends Command
     // Called just before this Command runs the first time
     protected void initialize() 
     {
+    	Robot.cubeHandler.zeroEnc();
     	Robot.driveTrain.zeroEnc();
     	Robot.driveTrain.disableRotateTo();
     	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
@@ -56,18 +59,44 @@ public class AutonomousRightLeft extends Command
     	switch(currentState)
     	{
 	    case start: 
-			currentState = State.movePastSwitch;
+			currentState = State.bringElevatorUp;
 			break;
+	    case bringElevatorUp:
+	    	Robot.cubeHandler.autoElevatorUp(.3);
+	    	if(Robot.cubeHandler.getEncPos() > 700)
+	    	{
+	    		Robot.cubeHandler.offElevator();
+	    		Robot.driveTrain.disableRotateTo();
+	    		Robot.driveTrain.zeroEnc();
+	    		Robot.driveTrain.setDrives(0, 0);
+	    		time = Timer.getFPGATimestamp();
+	    		currentState = State.pause;
+	    	}
+	    	break;
+	    case pause:
+	    	Robot.driveTrain.setDrives(0, 0);
+	    	if(Timer.getFPGATimestamp() > time + .25)
+	    	{
+	    		Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+				Robot.cubeHandler.autoElevatorUp(.6);
+		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
+		    	Robot.driveTrain.rotateTo(0);
+		    	currentState = State.movePastSwitch;
+	    	}
+	    	break;
 		case movePastSwitch:
 			Robot.driveTrain.pidDrive(-.8);
-			if(Robot.driveTrain.getEncPos() > 12500)
+			if(Robot.driveTrain.getEncPos() > 14000)
 			{
+				Robot.cubeHandler.offElevator();
 				System.out.println(Robot.driveTrain.getEncPos());
 				Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
-		    	Robot.driveTrain.rotateTo(-85);
+		    	Robot.driveTrain.rotateTo(-90);
 		    	time = Timer.getFPGATimestamp();
 				currentState = State.turn90ForLongMove;
 			}
@@ -80,13 +109,13 @@ public class AutonomousRightLeft extends Command
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
-		    	Robot.driveTrain.rotateTo(-85);
+		    	Robot.driveTrain.rotateTo(-90);
 				currentState = State.moveAlongSwitch;
 			}
 			break;
 		case moveAlongSwitch:
 			Robot.driveTrain.pidDrive(-.8);
-			if(Robot.driveTrain.getEncPos() > 12000)
+			if(Robot.driveTrain.getEncPos() > 13000)
 			{
 				Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
@@ -111,7 +140,7 @@ public class AutonomousRightLeft extends Command
 			break;
 		case smallMoveToSwitch:
 			Robot.driveTrain.pidDrive(-.8);
-			if(Robot.driveTrain.getEncPos() > 400)
+			if(Robot.driveTrain.getEncPos() > 800)
 			{
 				Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
@@ -124,7 +153,7 @@ public class AutonomousRightLeft extends Command
 			break;
 		case outtakeCube1:
     		Robot.cubeHandler.backwardIntake();
-    		if(Timer.getFPGATimestamp() > 2 + time)
+    		if(Timer.getFPGATimestamp() > time + 1)
     		{
     			Robot.cubeHandler.offIntake();
     			Robot.cubeHandler.actuate(true);
@@ -151,9 +180,8 @@ public class AutonomousRightLeft extends Command
 			}
 			break;
 		case elevatorDown:
-    		Robot.cubeHandler.elevator.set(1);
     		Robot.cubeHandler.downElevator();
-    		if(Timer.getFPGATimestamp() > time + 2.25)
+    		if(Timer.getFPGATimestamp() > time + 1.75)
     		{
     			Robot.cubeHandler.offElevator();
     			Robot.driveTrain.disableRotateTo();
@@ -167,7 +195,7 @@ public class AutonomousRightLeft extends Command
     		break;
     	case moveBackToSwitch:
     		Robot.driveTrain.pidDrive(-.8);
-   			if(Robot.driveTrain.getEncPos() > 250)
+   			if(Robot.driveTrain.getEncPos() > 400)
    			{
    				Robot.driveTrain.disableRotateTo();
    				Robot.driveTrain.zeroEnc();
@@ -191,9 +219,8 @@ public class AutonomousRightLeft extends Command
        		}
        		break;
         case elevatorUp:
-       		Robot.cubeHandler.elevator.set(1);
        		Robot.cubeHandler.upElevator();
-       		if(Timer.getFPGATimestamp() > time + 2.25)
+       		if(Timer.getFPGATimestamp() > time + 2)
        		{
         		Robot.cubeHandler.offElevator();
        			Robot.driveTrain.zeroEnc();
@@ -204,7 +231,7 @@ public class AutonomousRightLeft extends Command
     		break;
         case outtake2:
         	Robot.cubeHandler.backwardIntake();
-       		if(Timer.getFPGATimestamp() > 2 + time)
+       		if(Timer.getFPGATimestamp() > time + 1)
        		{
         		Robot.cubeHandler.offIntake();
        			Robot.cubeHandler.actuate(true);
@@ -232,13 +259,21 @@ public class AutonomousRightLeft extends Command
     // Called once after isFinished returns true
     protected void end() 
     {
-    	
+    	Robot.driveTrain.disableRotateTo();
+    	Robot.driveTrain.setDrives(0, 0);
+    	Robot.cubeHandler.offElevator();
+    	Robot.cubeHandler.offIntake();
+    	Robot.driveTrain.zeroEnc();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() 
     {
-    	
+    	Robot.driveTrain.disableRotateTo();
+    	Robot.driveTrain.setDrives(0, 0);
+    	Robot.cubeHandler.offElevator();
+    	Robot.cubeHandler.offIntake();
+    	Robot.driveTrain.zeroEnc();
     }
 }

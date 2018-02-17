@@ -20,15 +20,12 @@ public class RobotMap
 	public static double midElevator = -5000;
 	public static double swElevator  = -2000;
 	public static double topElevator = -400;
-
-	//climber shit
-	public static int climber = 12;
 	
 	//solenoid shit
 	public static int solenoidCAN = 51;
-	public static int grabber     = 1;
-	public static int ramp 		  = 2;
-	public static int hanger 	  = 3;
+	public static int grabber     = 0;
+//	public static int ramp 		  = 2;
+	public static int hanger 	  = 2;
 	
 	//PID shit
 	public static double turnP  = 0.03; 

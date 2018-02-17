@@ -15,10 +15,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class ClimberSubsystem extends Subsystem 
 {
-	private WPI_TalonSRX climbMotor = new WPI_TalonSRX(RobotMap.climber);
 	private Compressor compressor = new Compressor(51);
-	private static DoubleSolenoid ramp = new DoubleSolenoid(RobotMap.solenoidCAN, 0, RobotMap.ramp);
-	private static DoubleSolenoid hanger = new DoubleSolenoid(RobotMap.solenoidCAN, 0, RobotMap.hanger);
+//	private static DoubleSolenoid ramp = new DoubleSolenoid(RobotMap.solenoidCAN, 0, RobotMap.ramp);
+	private static DoubleSolenoid hanger = new DoubleSolenoid(RobotMap.solenoidCAN, 1, RobotMap.hanger);
+	private static DoubleSolenoid hangerRelease = new DoubleSolenoid(RobotMap.solenoidCAN, 3, 4);
 
 
 	
@@ -30,16 +30,16 @@ public class ClimberSubsystem extends Subsystem
     
     public ClimberSubsystem()
    	{
-  		climbMotor.set(ControlMode.PercentOutput, 0);
+    	
    	}
     
-    public void releaseRamp(boolean open)
-	{
-		if(open == true)
-			ramp.set(DoubleSolenoid.Value.kForward);
-		else
-			ramp.set(DoubleSolenoid.Value.kReverse);
-	}
+//    public void releaseRamp(boolean open)
+//	{
+//		if(open == true)
+//			ramp.set(DoubleSolenoid.Value.kForward);
+//		else
+//			ramp.set(DoubleSolenoid.Value.kReverse);
+//	}
     
     public void startHang(boolean open)
 	{
@@ -49,31 +49,13 @@ public class ClimberSubsystem extends Subsystem
 			hanger.set(DoubleSolenoid.Value.kReverse);
 	}
     
-    public void climberOn()
-   	{
-   		climbMotor.set(1);
-   	}
-    
-   	public void climberOff()
-   	{
-   		climbMotor.set(0);
-   	} 
-   	
-   	public double getEncPos()
-   	{
-   		int hangEnc = climbMotor.getSelectedSensorPosition(0);
-   		return hangEnc;
-   	}
-   	
-   	public void zeroEnc()
-   	{
-   		climbMotor.setSelectedSensorPosition(0, 0, 0);
-   	}
-   	
-   	public void post()
-   	{
-   		SmartDashboard.putNumber("Elevator", getEncPos());
-   	}
+    public void hangerRelease(boolean open)
+    {
+    	if(open == true)
+    		hangerRelease.set(DoubleSolenoid.Value.kForward);
+    	else
+    		hangerRelease.set(DoubleSolenoid.Value.kReverse);
+    }
 }
 
 

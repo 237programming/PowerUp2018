@@ -19,23 +19,24 @@ public class OI
 //	PlayStation controller buttons	
 	public static Button grabberOpen 		= new JoystickButton(controller, 5);
 	public static Button grabberClose 		= new JoystickButton(controller, 6);
-	public static Button highElevator 		= new JoystickButton(controller, 4);
-	public static Button switchElevator 	= new JoystickButton(controller, 1);
-	public static Button exchangeElevator   = new JoystickButton(controller, 3);
-	public static Button lowElevator 		= new JoystickButton(controller, 2);
-	public static Button elevatorUp 		= new JoystickButton(controller, 7); //d-pad
-	public static Button elevatorDown 		= new JoystickButton(controller, 8); //d-pad
+	public static Button startHang			= new JoystickButton(controller, 14);
+//	public static Button highElevator 		= new JoystickButton(controller, 4);
+//	public static Button switchElevator 	= new JoystickButton(controller, 1);
+//	public static Button exchangeElevator   = new JoystickButton(controller, 3);
+//	public static Button lowElevator 		= new JoystickButton(controller, 2);
+//	public static Button elevatorUp 		= new JoystickButton(controller, 9); 
+//	public static Button elevatorDown 		= new JoystickButton(controller, 10); 
 	
 //	Joystick buttons
 	public static Button reverseDrive 		= new JoystickButton(driveJoystick, 3);
 	
 	public OI()
 	{
-		highElevator.whenPressed(new HighElevator());
-		switchElevator.whenPressed(new SwitchElevator());
-		exchangeElevator.whenPressed(new ExchangeElevator());
-		lowElevator.whenPressed(new LowElevator());
-		elevatorUp.whenPressed(new ElevatorUp());
-		elevatorDown.whenPressed(new ElevatorDown());
+//		highElevator.whenPressed(new HighElevator());
+//		switchElevator.whenPressed(new SwitchElevator());
+//		exchangeElevator.whenPressed(new ExchangeElevator());
+//		lowElevator.whenPressed(new LowElevator());
+//		elevatorUp.whenPressed(new ElevatorUp());
+//		elevatorDown.whenPressed(new ElevatorDown());
 	}
 }

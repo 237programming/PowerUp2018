@@ -63,10 +63,10 @@ public class Robot extends TimedRobot
 //		configChooser.addDefault("Right Left", new AutonomousRightLeft());
 //		configChooser.addObject("Other", new AutonomousRightRight());
 //		SmartDashboard.putData("Starting Position", configChooser);
-
+		
+		cubeHandler.zeroEnc();
 		driveTrain.zeroEnc();
 		driveTrain.zeroYaw();
-		climber.zeroEnc();
 	}
 
 	/**
@@ -86,6 +86,7 @@ public class Robot extends TimedRobot
 //		m_autoSelected = m_chooser.getSelected();
 //		m_autoSelected = SmartDashboard.getString("Auto Selector",
 //		 		kDefaultAuto);
+		cubeHandler.zeroEnc();
 		driveTrain.zeroYaw();
 		String gameData;
 //		if(configChooser.getSelected().equals(right))
@@ -213,10 +214,14 @@ public class Robot extends TimedRobot
 		if(OI.grabberClose.get() == true)
 			cubeHandler.actuate(false);	
 		
+		if(OI.startHang.get() == true)
+			climber.startHang(true);
+		else
+			climber.startHang(false);
+		
 		cubeHandler.cubeSensor();
 		
 		driveTrain.post();
-		climber.post();
 		cubeHandler.post();
 	}
 

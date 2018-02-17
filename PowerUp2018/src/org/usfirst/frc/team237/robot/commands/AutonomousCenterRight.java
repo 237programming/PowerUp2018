@@ -49,6 +49,7 @@ public class AutonomousCenterRight extends Command
     // Called just before this Command runs the first time
     protected void initialize() 
     {
+    	Robot.cubeHandler.zeroEnc();
     	Robot.driveTrain.zeroEnc();
     	Robot.driveTrain.disableRotateTo();
     	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
@@ -178,6 +179,7 @@ public class AutonomousCenterRight extends Command
     		Robot.driveTrain.pidDrive(.8);
 			if(Robot.driveTrain.getEncPos() < -3500)
 			{
+				Robot.cubeHandler.offElevator();
 				Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
@@ -259,13 +261,21 @@ public class AutonomousCenterRight extends Command
     // Called once after isFinished returns true
     protected void end() 
     {
-    	
+    	Robot.driveTrain.disableRotateTo();
+    	Robot.driveTrain.setDrives(0, 0);
+    	Robot.cubeHandler.offElevator();
+    	Robot.cubeHandler.offIntake();
+    	Robot.driveTrain.zeroEnc();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() 
     {
-    	
+    	Robot.driveTrain.disableRotateTo();
+    	Robot.driveTrain.setDrives(0, 0);
+    	Robot.cubeHandler.offElevator();
+    	Robot.cubeHandler.offIntake();
+    	Robot.driveTrain.zeroEnc();
     }
 }
