@@ -14,6 +14,7 @@ import org.usfirst.frc.team237.robot.commands.AutonomousLeftLeft;
 import org.usfirst.frc.team237.robot.commands.AutonomousLeftRight;
 import org.usfirst.frc.team237.robot.commands.AutonomousRightLeft;
 import org.usfirst.frc.team237.robot.commands.AutonomousRightRight;
+import org.usfirst.frc.team237.robot.commands.AutonomousRightRight2;
 import org.usfirst.frc.team237.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.CubeHandlerSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.DriveSubsystem;
@@ -67,6 +68,8 @@ public class Robot extends TimedRobot
 		cubeHandler.zeroEnc();
 		driveTrain.zeroEnc();
 		driveTrain.zeroYaw();
+		
+		Robot.climber.hangerRelease(false);
 	}
 
 	/**
@@ -146,6 +149,7 @@ public class Robot extends TimedRobot
 	public void autonomousPeriodic() 
 	{
 		Scheduler.getInstance().run();
+		Robot.driveTrain.post();
 //		switch (m_autoSelected) 
 //		{
 //			case kCustomAuto:
@@ -214,10 +218,15 @@ public class Robot extends TimedRobot
 		if(OI.grabberClose.get() == true)
 			cubeHandler.actuate(false);	
 		
-		if(OI.startHang.get() == true)
+		if(OI.flipUp.get() == true)
 			climber.startHang(true);
-		else
+		if(OI.flipDown.get() == true)
 			climber.startHang(false);
+		
+		if(OI.hang.get() == true)
+			climber.hangerRelease(true);
+		else
+			climber.hangerRelease(false);
 		
 		cubeHandler.cubeSensor();
 		

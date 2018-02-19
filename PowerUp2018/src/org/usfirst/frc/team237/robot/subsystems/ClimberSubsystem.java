@@ -17,8 +17,8 @@ public class ClimberSubsystem extends Subsystem
 {
 	private Compressor compressor = new Compressor(51);
 //	private static DoubleSolenoid ramp = new DoubleSolenoid(RobotMap.solenoidCAN, 0, RobotMap.ramp);
-	private static DoubleSolenoid hanger = new DoubleSolenoid(RobotMap.solenoidCAN, 1, RobotMap.hanger);
-	private static DoubleSolenoid hangerRelease = new DoubleSolenoid(RobotMap.solenoidCAN, 3, 4);
+	private static DoubleSolenoid hangerRelease = new DoubleSolenoid(RobotMap.solenoidCAN, 1, RobotMap.hanger);
+	private static DoubleSolenoid hanger = new DoubleSolenoid(RobotMap.solenoidCAN, 3, 4);
 
 
 	

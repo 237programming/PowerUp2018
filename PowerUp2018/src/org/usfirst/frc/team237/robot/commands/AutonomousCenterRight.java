@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutonomousCenterRight extends Command 
 {
-	public Timer backwardsIntakeTimer = new Timer();
-	public Timer elevatorTimer = new Timer();
 	public double time;
 	public double elevatorTime;
 	private enum State
 	{
 		start,
+		bringElevatorUp,
+		pause,
 		moveOffWall,
 		turnToDiagonalAngle,
 		moveAtAngle,
@@ -64,8 +64,34 @@ public class AutonomousCenterRight extends Command
     	switch(currentState)
     	{
     	case start: 
-    		currentState = State.moveOffWall;
+    		elevatorTime = Timer.getFPGATimestamp();
+    		currentState = State.bringElevatorUp;
     		break;
+    	case bringElevatorUp:
+	    	Robot.cubeHandler.autoElevatorUp(.3);
+	    	if(Robot.cubeHandler.getEncPos() > 700)
+	    	{
+	    		Robot.cubeHandler.offElevator();
+	    		Robot.driveTrain.disableRotateTo();
+	    		Robot.driveTrain.zeroEnc();
+	    		Robot.driveTrain.setDrives(0, 0);
+	    		time = Timer.getFPGATimestamp();
+	    		currentState = State.pause;
+	    	}
+	    	break;
+	    case pause:
+	    	Robot.driveTrain.setDrives(0, 0);
+	    	if(Timer.getFPGATimestamp() > time + .25)
+	    	{
+	    		Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+				Robot.cubeHandler.autoElevatorUp(.6);
+		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
+		    	Robot.driveTrain.rotateTo(0);
+		    	currentState = State.moveOffWall;
+	    	}
+	    	break;
     	case moveOffWall:
     		Robot.driveTrain.pidDrive(-.8);
     		if(Robot.driveTrain.getEncPos() > 1500)
@@ -93,7 +119,7 @@ public class AutonomousCenterRight extends Command
     		break;
     	case moveAtAngle:
     		Robot.driveTrain.pidDrive(-.8);
-    		if(Robot.driveTrain.getEncPos() > 3500)
+    		if(Robot.driveTrain.getEncPos() > 5500)
     		{
     			Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
@@ -128,7 +154,7 @@ public class AutonomousCenterRight extends Command
     		}
     		break;
     	case outtakeCube:
-    		Robot.cubeHandler.backwardIntake();
+    		Robot.cubeHandler.setOuttake(-.7);
     		if(Timer.getFPGATimestamp() > time + 1)
     		{
     			Robot.cubeHandler.offIntake();
@@ -179,19 +205,19 @@ public class AutonomousCenterRight extends Command
     		Robot.driveTrain.pidDrive(.8);
 			if(Robot.driveTrain.getEncPos() < -3500)
 			{
-				Robot.cubeHandler.offElevator();
+//				Robot.cubeHandler.offElevator();
 				Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
-		    	Robot.driveTrain.rotateTo(0);
+		    	Robot.driveTrain.rotateTo(20);
 		    	time = Timer.getFPGATimestamp();
 				currentState = State.turnBackToZero;
 			}
 			break;
     	case turnBackToZero:
     		Robot.driveTrain.pidDrive(0);
-    		if(Timer.getFPGATimestamp() > time + 1)
+    		if(Timer.getFPGATimestamp() > time + 1.5)
     		{
     			Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
@@ -235,7 +261,7 @@ public class AutonomousCenterRight extends Command
     		break;
     	case turnAround:
     		Robot.driveTrain.pidDrive(0);
-			if(Timer.getFPGATimestamp() > time + 2)
+			if(Timer.getFPGATimestamp() > time + 3)
 			{
 				Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
@@ -247,7 +273,9 @@ public class AutonomousCenterRight extends Command
     		break;
     	}
     	if(Timer.getFPGATimestamp() > elevatorTime + 2.5)
+    	{
     		Robot.cubeHandler.offElevator();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

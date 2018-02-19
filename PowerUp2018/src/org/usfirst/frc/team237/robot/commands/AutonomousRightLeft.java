@@ -114,27 +114,30 @@ public class AutonomousRightLeft extends Command
 			}
 			break;
 		case moveAlongSwitch:
-			Robot.driveTrain.pidDrive(-.8);
+			if(Robot.driveTrain.getEncPos() > 10000)
+				Robot.driveTrain.pidDrive(-.5);
+			else
+				Robot.driveTrain.pidDrive(-.8);
 			if(Robot.driveTrain.getEncPos() > 13000)
 			{
 				Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
-		    	Robot.driveTrain.rotateTo(150);
+		    	Robot.driveTrain.rotateTo(160);
 		    	time = Timer.getFPGATimestamp();
 				currentState = State.turnToSwitch;
 			}
 			break;
 		case turnToSwitch:
 			Robot.driveTrain.pidDrive(0);
-    		if(Timer.getFPGATimestamp() > time + 1)
+    		if(Timer.getFPGATimestamp() > time + 2)
     		{
     			Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
-		    	Robot.driveTrain.rotateTo(150);
+		    	Robot.driveTrain.rotateTo(160);
     			currentState = State.smallMoveToSwitch;
     		}
 			break;
@@ -146,7 +149,7 @@ public class AutonomousRightLeft extends Command
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
-		    	Robot.driveTrain.rotateTo(150);
+		    	Robot.driveTrain.rotateTo(160);
     			time = Timer.getFPGATimestamp();
 				currentState = State.outtakeCube1;
 			}
@@ -161,7 +164,7 @@ public class AutonomousRightLeft extends Command
     			Robot.driveTrain.zeroEnc();
     			Robot.driveTrain.setDrives(0, 0);
 				Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
-				Robot.driveTrain.rotateTo(150);
+				Robot.driveTrain.rotateTo(160);
     			time = Timer.getFPGATimestamp();
     			currentState = State.backAwayFromSwitch;
     		}
@@ -174,7 +177,7 @@ public class AutonomousRightLeft extends Command
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
-		    	Robot.driveTrain.rotateTo(150);
+		    	Robot.driveTrain.rotateTo(160);
 		    	time = Timer.getFPGATimestamp();
 				currentState = State.elevatorDown;
 			}
@@ -188,7 +191,7 @@ public class AutonomousRightLeft extends Command
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 				Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
-				Robot.driveTrain.rotateTo(150);
+				Robot.driveTrain.rotateTo(160);
 		    	time = Timer.getFPGATimestamp();
 		    	currentState = State.moveBackToSwitch;
     		}
@@ -201,7 +204,7 @@ public class AutonomousRightLeft extends Command
    				Robot.driveTrain.zeroEnc();
    				Robot.driveTrain.setDrives(0, 0);
     			Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
-    		   	Robot.driveTrain.rotateTo(150);
+    		   	Robot.driveTrain.rotateTo(160);
         		time = Timer.getFPGATimestamp();
     			currentState = State.intake;
     		}
@@ -239,7 +242,7 @@ public class AutonomousRightLeft extends Command
        			Robot.driveTrain.zeroEnc();
        			Robot.driveTrain.setDrives(0, 0);
    				Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
-   				Robot.driveTrain.rotateTo(150);
+   				Robot.driveTrain.rotateTo(160);
        			time = Timer.getFPGATimestamp();
        			currentState = State.finished;
        		}

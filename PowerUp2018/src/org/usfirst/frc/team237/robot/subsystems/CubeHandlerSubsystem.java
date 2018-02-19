@@ -32,7 +32,7 @@ public class CubeHandlerSubsystem extends Subsystem
 		leftIntake.set(ControlMode.PercentOutput,0);
 		rightIntake.set(ControlMode.PercentOutput, 0);
 		elevator.set(ControlMode.PercentOutput, 0);
-		elevator.configNominalOutputReverse(0, 0);
+//		elevator.configNominalOutputReverse(0, 0);
 		
 		elevator.setSensorPhase(false);
 	}
@@ -61,6 +61,12 @@ public class CubeHandlerSubsystem extends Subsystem
 		rightIntake.set(0);
 		leftIntake.set(0);
 		manualStatus = false;		
+	}
+	
+	public void setOuttake(double speed)
+	{
+		leftIntake.set(speed);
+		rightIntake.set(speed);
 	}
 	
 	public void upElevator()

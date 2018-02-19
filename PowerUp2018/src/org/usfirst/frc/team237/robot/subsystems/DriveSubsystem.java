@@ -33,7 +33,7 @@ public class DriveSubsystem extends Subsystem implements edu.wpi.first.wpilibj.P
 		rightDriveSlave.set(ControlMode.Follower, 3);
 		angularPID.disable();
 		angularPID.setInputRange(-180, 180);
-		angularPID.setOutputRange(-0.8, 0.8);
+		angularPID.setOutputRange(-0.6, 0.6);
 		angularPID.setPercentTolerance(30);
 		angularPID.setContinuous();
 		
