@@ -143,7 +143,7 @@ public class AutonomousRightLeft extends Command
 			break;
 		case smallMoveToSwitch:
 			Robot.driveTrain.pidDrive(-.8);
-			if(Robot.driveTrain.getEncPos() > 800)
+			if(Robot.driveTrain.getEncPos() > 400)
 			{
 				Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();

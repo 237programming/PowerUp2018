@@ -19,6 +19,7 @@ import org.usfirst.frc.team237.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.CubeHandlerSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.DriveSubsystem;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -43,6 +44,8 @@ public class Robot extends TimedRobot
 	public static PowerDistributionPanel PDP = new PowerDistributionPanel(50);
 	private boolean previousButtonState = false;
 	private boolean driveState = true;
+	private DigitalInput leftStart = new DigitalInput(1);
+	private DigitalInput rightStart = new DigitalInput(2);
 //	private String m_autoSelected;
 	Command autonomousCommand;
 //	SendableChooser<Command> configChooser;
@@ -91,9 +94,11 @@ public class Robot extends TimedRobot
 //		 		kDefaultAuto);
 		cubeHandler.zeroEnc();
 		driveTrain.zeroYaw();
+		
 		String gameData;
-//		if(configChooser.getSelected().equals(right))
-//		{
+		if(rightStart.get() && !leftStart.get())
+		{
+			System.out.println("Running RightAutos");
 			gameData = DriverStation.getInstance().getGameSpecificMessage();
                 if(gameData.length() > 0)
                 {
@@ -102,39 +107,39 @@ public class Robot extends TimedRobot
                 	else 
                 		autonomousCommand = new AutonomousRightRight();
                 }
-//		}
-		
-//		if(configChooser.getSelected().equals(center))
-//		{
-//			gameData = DriverStation.getInstance().getGameSpecificMessage();
-//                if(gameData.length() > 0)
-//                {
-//                	if(gameData.charAt(0) == 'L')
-//                	{
-//                		autonomousCommand = new AutonomousCenterLeft();
-//                	} 
-//                	else 
-//                	{
-//                		autonomousCommand = new AutonomousCenterRight();
-//                	}
-//                }
-//		}
-		
-//		if(configChooser.getSelected().equals(left))
-//		{
-//			gameData = DriverStation.getInstance().getGameSpecificMessage();
-//                if(gameData.length() > 0)
-//                {
-//                	if(gameData.charAt(0) == 'L')
-//                	{
-//                		autonomousCommand = new AutonomousLeftLeft();
-//                	} 
-//                	else 
-//                	{
-//                		autonomousCommand = new AutonomousLeftRight();
-//                	}
-//                }
-//		}
+		}
+		else if(leftStart.get() && !rightStart.get())
+		{
+        	System.out.println("Running LeftAuto");
+			gameData = DriverStation.getInstance().getGameSpecificMessage();
+                if(gameData.length() > 0)
+                {
+                	if(gameData.charAt(0) == 'L')
+                	{
+                		autonomousCommand = new AutonomousLeftLeft();
+                	} 
+                	else 
+                	{
+                		autonomousCommand = new AutonomousLeftRight();
+                	}
+                }
+		}
+		else
+		{
+		System.out.println("Running CenterAuto");
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+            if(gameData.length() > 0)
+            {
+            	if(gameData.charAt(0) == 'L')
+            	{
+            		autonomousCommand = new AutonomousCenterLeft();
+            	} 
+            	else 
+            	{
+            		autonomousCommand = new AutonomousCenterRight();
+            	}
+            }
+		}
 //		autonomousCommand = (Command) configChooser.getSelected();
 		if(autonomousCommand != null) 
 			autonomousCommand.start();
