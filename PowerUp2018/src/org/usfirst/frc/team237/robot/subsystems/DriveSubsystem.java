@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
 
 /**
  *
@@ -21,7 +22,8 @@ public class DriveSubsystem extends Subsystem implements edu.wpi.first.wpilibj.P
 	private WPI_TalonSRX leftDriveSlave = new WPI_TalonSRX(RobotMap.driveTalon2);
 	private WPI_TalonSRX rightDrive = new WPI_TalonSRX(RobotMap.driveTalon3);
 	private WPI_TalonSRX rightDriveSlave = new WPI_TalonSRX(RobotMap.driveTalon4);
-	private AHRS gyro = new AHRS(SPI.Port.kMXP);
+//	private AHRS gyro = new AHRS(SPI.Port.kMXP);
+	private AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 	private PIDController angularPID = new PIDController(0.1, 0.0, 0.1, gyro, this);
 	private double PIDOutput = 0;
     

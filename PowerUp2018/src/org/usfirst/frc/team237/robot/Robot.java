@@ -19,6 +19,8 @@ import org.usfirst.frc.team237.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.CubeHandlerSubsystem;
 import org.usfirst.frc.team237.robot.subsystems.DriveSubsystem;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -73,6 +75,9 @@ public class Robot extends TimedRobot
 		driveTrain.zeroYaw();
 		
 		Robot.climber.hangerRelease(false);
+		
+//		UsbCamera cam = CameraServer.getInstance().startAutomaticCapture();
+//		cam.setResolution(1280, 720);
 	}
 
 	/**
@@ -94,6 +99,7 @@ public class Robot extends TimedRobot
 //		 		kDefaultAuto);
 		cubeHandler.zeroEnc();
 		driveTrain.zeroYaw();
+		climber.enableCompressor(false);
 		
 		String gameData;
 		if(rightStart.get() && !leftStart.get())
@@ -166,7 +172,17 @@ public class Robot extends TimedRobot
 //				break;
 //		}
 	}
-
+	
+	@Override
+	public void teleopInit()
+	{
+		climber.enableCompressor(true);
+		Robot.driveTrain.disableRotateTo();
+    	Robot.driveTrain.setDrives(0, 0);
+    	Robot.cubeHandler.offElevator();
+    	Robot.cubeHandler.offIntake();
+	}
+	
 	/**
 	 * This function is called periodically during operator control.
 	 */
@@ -237,6 +253,13 @@ public class Robot extends TimedRobot
 		
 		driveTrain.post();
 		cubeHandler.post();
+	}
+	
+	@Override
+	public void disabledPeriodic()
+	{
+		Robot.driveTrain.post();
+		Robot.cubeHandler.post();
 	}
 
 	/**

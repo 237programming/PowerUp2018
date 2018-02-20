@@ -87,7 +87,10 @@ public class AutonomousRightLeft extends Command
 	    	}
 	    	break;
 		case movePastSwitch:
-			Robot.driveTrain.pidDrive(-.8);
+			if(Robot.driveTrain.getEncPos() > 10000)
+				Robot.driveTrain.pidDrive(-.5);
+			else
+				Robot.driveTrain.pidDrive(-.8);
 			if(Robot.driveTrain.getEncPos() > 14000)
 			{
 				Robot.cubeHandler.offElevator();

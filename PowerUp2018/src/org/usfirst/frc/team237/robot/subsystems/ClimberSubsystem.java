@@ -40,7 +40,18 @@ public class ClimberSubsystem extends Subsystem
 //		else
 //			ramp.set(DoubleSolenoid.Value.kReverse);
 //	}
+    public boolean compressorEnabled()
+    {
+    	return compressor.enabled();
+    }
     
+    public void enableCompressor(boolean enable)
+    {
+    	if(enable)
+    		compressor.start();
+    	else
+    		compressor.stop();
+    }
     public void startHang(boolean open)
 	{
 		if(open == true)

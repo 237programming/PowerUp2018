@@ -236,7 +236,7 @@ public class AutonomousCenterRight extends Command
     		break;
     	case moveToCubePile:
     		Robot.driveTrain.pidDrive(-.5);
-			if(Robot.driveTrain.getEncPos() > 1000)
+			if(Robot.driveTrain.getEncPos() > 2000)
 			{
 				Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
