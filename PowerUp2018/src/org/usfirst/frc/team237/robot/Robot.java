@@ -100,6 +100,7 @@ public class Robot extends TimedRobot
 		cubeHandler.zeroEnc();
 		driveTrain.zeroYaw();
 		climber.enableCompressor(false);
+		Robot.driveTrain.setRampRate(0);
 		
 		String gameData;
 		if(rightStart.get() && !leftStart.get())
@@ -181,6 +182,7 @@ public class Robot extends TimedRobot
     	Robot.driveTrain.setDrives(0, 0);
     	Robot.cubeHandler.offElevator();
     	Robot.cubeHandler.offIntake();
+    	Robot.driveTrain.setRampRate(0);
 	}
 	
 	/**

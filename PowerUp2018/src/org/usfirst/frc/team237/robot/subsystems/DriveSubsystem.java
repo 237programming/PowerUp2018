@@ -203,6 +203,14 @@ public class DriveSubsystem extends Subsystem implements edu.wpi.first.wpilibj.P
 		setDrives(speed,PIDOutput);
 	}
 	
+	public void setRampRate(double secToFull)
+	{
+		leftDrive.configOpenloopRamp(secToFull, 1000);
+		leftDriveSlave.configOpenloopRamp(secToFull, 1000);
+		rightDrive.configOpenloopRamp(secToFull, 1000);
+		rightDriveSlave.configOpenloopRamp(secToFull, 1000);
+	}
+	
 	public void post()
 	{
 		SmartDashboard.putNumber("Right Drive", rightDrive.getSelectedSensorPosition(0));
