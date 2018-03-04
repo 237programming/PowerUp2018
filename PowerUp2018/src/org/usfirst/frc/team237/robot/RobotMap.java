@@ -23,7 +23,7 @@ public class RobotMap
 	
 	//solenoid shit
 	public static int solenoidCAN = 51;
-	public static int grabber     = 0;
+	public static int grabber     = 5;
 //	public static int ramp 		  = 2;
 	public static int hanger 	  = 2;
 	

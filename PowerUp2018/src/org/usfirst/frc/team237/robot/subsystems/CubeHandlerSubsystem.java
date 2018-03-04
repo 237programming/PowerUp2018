@@ -20,7 +20,8 @@ public class CubeHandlerSubsystem extends Subsystem
 	private WPI_TalonSRX leftIntake = new WPI_TalonSRX(RobotMap.intake1);
 	private WPI_TalonSRX rightIntake = new WPI_TalonSRX(RobotMap.intake2);
 	public WPI_TalonSRX elevator = new WPI_TalonSRX(RobotMap.elevator1);
-	private static Solenoid grabber = new Solenoid(RobotMap.solenoidCAN, RobotMap.grabber);
+//	private static Solenoid grabber = new Solenoid(RobotMap.solenoidCAN, RobotMap.grabber);
+	private static DoubleSolenoid grabber = new DoubleSolenoid(RobotMap.solenoidCAN, 0,  RobotMap.grabber);
 	private boolean autoStatus = false;
 	private boolean pastStatus = false;
 	private boolean manualStatus = false;
@@ -37,9 +38,17 @@ public class CubeHandlerSubsystem extends Subsystem
 		elevator.setSensorPhase(false);
 	}
 	
+//	public void actuate(boolean open)
+//	{
+//		grabber.set(open);
+//	}
+	
 	public void actuate(boolean open)
 	{
-		grabber.set(open);
+		if(open)
+			grabber.set(DoubleSolenoid.Value.kForward);
+		else
+			grabber.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	public void fowardIntake()
