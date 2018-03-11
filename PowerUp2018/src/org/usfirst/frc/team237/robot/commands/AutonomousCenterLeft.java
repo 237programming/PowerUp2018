@@ -93,7 +93,7 @@ public class AutonomousCenterLeft extends Command
 	    	}
 	    	break;
     	case moveOffWall:
-    		Robot.driveTrain.pidDrive(-.8);
+    		Robot.driveTrain.pidDrive(-.5);
     		if(Robot.driveTrain.getEncPos() > 1500)
     		{
     			Robot.driveTrain.disableRotateTo();
@@ -118,7 +118,7 @@ public class AutonomousCenterLeft extends Command
     		}
     		break;
     	case moveAtAngle:
-    		Robot.driveTrain.pidDrive(-.8);
+    		Robot.driveTrain.pidDrive(-.5);
     		if(Robot.driveTrain.getEncPos() > 5000)
     		{
     			Robot.driveTrain.disableRotateTo();
@@ -144,7 +144,7 @@ public class AutonomousCenterLeft extends Command
     		break;
     	case moveFowardToSwitch:
     		Robot.driveTrain.pidDrive(-.5);
-    		if(Robot.driveTrain.getEncPos() > 300)
+    		if(Robot.driveTrain.getEncPos() > 2000)
     		{
     			Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
@@ -154,7 +154,7 @@ public class AutonomousCenterLeft extends Command
     		}
     		break;
     	case outtakeCube:
-    		Robot.cubeHandler.setOuttake(-.7);
+    		Robot.cubeHandler.setOuttake(-.5);
     		if(Timer.getFPGATimestamp() > time + 1)
     		{
     			Robot.cubeHandler.offIntake();
@@ -168,7 +168,7 @@ public class AutonomousCenterLeft extends Command
     		}
     		break;
     	case backAwayFromSwitch:
-    		Robot.driveTrain.pidDrive(.8);
+    		Robot.driveTrain.pidDrive(.5);
 			if(Robot.driveTrain.getEncPos() < -300)
 			{
 				Robot.driveTrain.disableRotateTo();
@@ -202,7 +202,7 @@ public class AutonomousCenterLeft extends Command
 	    	currentState = State.moveToCenter;
     		break;
     	case moveToCenter:
-    		Robot.driveTrain.pidDrive(.8);
+    		Robot.driveTrain.pidDrive(.5);
 			if(Robot.driveTrain.getEncPos() < -3500)
 			{
 //				Robot.cubeHandler.offElevator();
@@ -236,7 +236,7 @@ public class AutonomousCenterLeft extends Command
     		break;
     	case moveToCubePile:
     		Robot.driveTrain.pidDrive(-.5);
-			if(Robot.driveTrain.getEncPos() > 2000)
+			if(Robot.driveTrain.getEncPos() > 1000)
 			{
 				Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();

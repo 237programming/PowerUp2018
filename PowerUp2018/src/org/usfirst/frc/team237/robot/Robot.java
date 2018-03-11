@@ -99,7 +99,7 @@ public class Robot extends TimedRobot
 //		 		kDefaultAuto);
 		cubeHandler.zeroEnc();
 		driveTrain.zeroYaw();
-		climber.enableCompressor(false);
+//		climber.enableCompressor(false);
 		Robot.driveTrain.setRampRate(0);
 		
 		String gameData;
@@ -177,7 +177,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void teleopInit()
 	{
-		climber.enableCompressor(true);
+//		climber.enableCompressor(true);
 		Robot.driveTrain.disableRotateTo();
     	Robot.driveTrain.setDrives(0, 0);
     	Robot.cubeHandler.offElevator();

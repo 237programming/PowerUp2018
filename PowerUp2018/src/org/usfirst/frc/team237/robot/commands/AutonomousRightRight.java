@@ -18,7 +18,9 @@ public class AutonomousRightRight extends Command
 		pause,
 		moveToSwitch,
 		turnToSwitch,
+		smallMoveToSwitch,
 		outtakeCube1,
+		backAwayFromSwitch,
 		turnBackToZero,
 		elevatorDown,
 		movePastSwitch,
@@ -26,7 +28,7 @@ public class AutonomousRightRight extends Command
 		moveToSwitchAgain,
 		intake,
 		elevatorUp,
-		outtakeCube2,
+//		outtakeCube2,
 		finished
 	};
 	
@@ -105,12 +107,25 @@ public class AutonomousRightRight extends Command
     			Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
+				Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
+		    	Robot.driveTrain.rotateTo(-90);
 				time = Timer.getFPGATimestamp();
-    			currentState = State.outtakeCube1;
+    			currentState = State.smallMoveToSwitch;
+    		}
+    		break;
+    	case smallMoveToSwitch:
+    		Robot.driveTrain.pidDrive(-.8);
+    		if(Robot.driveTrain.getEncPos() > 1000)
+    		{
+    			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+		    	time = Timer.getFPGATimestamp();
+		    	currentState = State.outtakeCube1;
     		}
     		break;
     	case outtakeCube1:
-    		Robot.cubeHandler.backwardIntake();
+    		Robot.cubeHandler.setOuttake(-.5);
     		if(Timer.getFPGATimestamp() > time + 1)
     		{
     			Robot.cubeHandler.offIntake();
@@ -118,9 +133,22 @@ public class AutonomousRightRight extends Command
 		    	Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
-				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
-				Robot.driveTrain.rotateTo(0);
+				Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
+				Robot.driveTrain.rotateTo(-90);
 				time = Timer.getFPGATimestamp();
+		    	currentState = State.backAwayFromSwitch;
+    		}
+    		break;
+    	case backAwayFromSwitch:
+    		Robot.driveTrain.pidDrive(.8);
+    		if(Robot.driveTrain.getEncPos() < -1000)
+    		{
+    			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
+		    	Robot.driveTrain.rotateTo(0);
+		    	time = Timer.getFPGATimestamp();
 		    	currentState = State.turnBackToZero;
     		}
     		break;
@@ -204,22 +232,22 @@ public class AutonomousRightRight extends Command
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 		    	time = Timer.getFPGATimestamp();
-		    	currentState = State.outtakeCube2;
-    		}
-    		break;
-    	case outtakeCube2:
-    		Robot.cubeHandler.backwardIntake();
-    		if(Timer.getFPGATimestamp() > time + 1)
-    		{
-    			Robot.cubeHandler.offIntake();
-    			Robot.cubeHandler.actuate(true);
-		    	Robot.driveTrain.disableRotateTo();
-				Robot.driveTrain.zeroEnc();
-				Robot.driveTrain.setDrives(0, 0);
-				time = Timer.getFPGATimestamp();
 		    	currentState = State.finished;
     		}
     		break;
+//    	case outtakeCube2:
+//    		Robot.cubeHandler.backwardIntake();
+//    		if(Timer.getFPGATimestamp() > time + 1)
+//    		{
+//    			Robot.cubeHandler.offIntake();
+//    			Robot.cubeHandler.actuate(true);
+//		    	Robot.driveTrain.disableRotateTo();
+//				Robot.driveTrain.zeroEnc();
+//				Robot.driveTrain.setDrives(0, 0);
+//				time = Timer.getFPGATimestamp();
+//		    	currentState = State.finished;
+//    		}
+//    		break;
     	default:
     		break;
     	}

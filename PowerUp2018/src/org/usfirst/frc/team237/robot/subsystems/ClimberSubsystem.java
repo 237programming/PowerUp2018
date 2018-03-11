@@ -30,7 +30,7 @@ public class ClimberSubsystem extends Subsystem
     
     public ClimberSubsystem()
    	{
-    	
+    	hanger.set(DoubleSolenoid.Value.kOff);
    	}
     
 //    public void releaseRamp(boolean open)
