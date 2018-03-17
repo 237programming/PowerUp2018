@@ -144,7 +144,7 @@ public class AutonomousCenterRight extends Command
     		break;
     	case moveFowardToSwitch:
     		Robot.driveTrain.pidDrive(-.5);
-    		if(Robot.driveTrain.getEncPos() > 2000)
+    		if(Robot.driveTrain.getEncPos() > 1000)
     		{
     			Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
@@ -210,7 +210,7 @@ public class AutonomousCenterRight extends Command
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
-		    	Robot.driveTrain.rotateTo(20);
+		    	Robot.driveTrain.rotateTo(-30);
 		    	time = Timer.getFPGATimestamp();
 				currentState = State.turnBackToZero;
 			}
@@ -231,7 +231,7 @@ public class AutonomousCenterRight extends Command
     		Robot.driveTrain.zeroEnc();
 			Robot.driveTrain.setDrives(0, 0);
 			Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
-			Robot.driveTrain.rotateTo(0);
+			Robot.driveTrain.rotateTo(-30);
 			currentState = State.moveToCubePile;
     		break;
     	case moveToCubePile:

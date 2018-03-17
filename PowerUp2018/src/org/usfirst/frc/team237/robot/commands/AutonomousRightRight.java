@@ -89,7 +89,7 @@ public class AutonomousRightRight extends Command
 	    	break;
     	case moveToSwitch:
     		Robot.driveTrain.pidDrive(-.8);
-    		if(Robot.driveTrain.getEncPos() > 10000)
+    		if(Robot.driveTrain.getEncPos() > 9500)
     		{
     			Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
@@ -177,14 +177,14 @@ public class AutonomousRightRight extends Command
     		break;
     	case movePastSwitch:
     		Robot.driveTrain.pidDrive(-.8);
-    		if(Robot.driveTrain.getEncPos() > 4500)
+    		if(Robot.driveTrain.getEncPos() > 5500)
     		{
     			Robot.cubeHandler.offElevator();
     			Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
-		    	Robot.driveTrain.rotateTo(-140);
+		    	Robot.driveTrain.rotateTo(-120);
 		    	time = Timer.getFPGATimestamp();
 		    	currentState = State.turnBackToSwitch;
     		}
@@ -197,7 +197,7 @@ public class AutonomousRightRight extends Command
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
-		    	Robot.driveTrain.rotateTo(-140);
+		    	Robot.driveTrain.rotateTo(-120);
 		    	currentState = State.moveToSwitchAgain;
     		}
     		break;

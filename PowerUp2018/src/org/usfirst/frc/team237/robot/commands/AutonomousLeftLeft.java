@@ -184,7 +184,7 @@ public class AutonomousLeftLeft extends Command
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
-		    	Robot.driveTrain.rotateTo(140);
+		    	Robot.driveTrain.rotateTo(120);
 		    	time = Timer.getFPGATimestamp();
 		    	currentState = State.turnBackToSwitch;
     		}
@@ -197,7 +197,7 @@ public class AutonomousLeftLeft extends Command
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
 		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
-		    	Robot.driveTrain.rotateTo(140);
+		    	Robot.driveTrain.rotateTo(120);
 		    	currentState = State.moveToSwitchAgain;
     		}
     		break;
