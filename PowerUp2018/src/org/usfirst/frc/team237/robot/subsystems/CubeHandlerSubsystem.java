@@ -27,6 +27,7 @@ public class CubeHandlerSubsystem extends Subsystem
 	private boolean manualStatus = false;
 	private DigitalInput cubeSensor = new DigitalInput(0);
 	private double time;
+	private boolean grabberOpen;
 
 	public CubeHandlerSubsystem()
 	{
@@ -46,9 +47,17 @@ public class CubeHandlerSubsystem extends Subsystem
 	public void actuate(boolean open)
 	{
 		if(open)
+		{
 			grabber.set(DoubleSolenoid.Value.kForward);
+			grabberOpen = true;
+		}
+			
 		else
+		{
 			grabber.set(DoubleSolenoid.Value.kReverse);
+			grabberOpen = false;
+		}
+			
 	}
 	
 	public void fowardIntake()
@@ -113,6 +122,7 @@ public class CubeHandlerSubsystem extends Subsystem
 	{
 		SmartDashboard.putNumber("Elevator", getEncPos());
 		SmartDashboard.putBoolean("Cube Sensor", cubeSensor.get());
+		SmartDashboard.putBoolean("Grabber Open?", grabberOpen);
 	}
 	
 	public void cubeSensor()
