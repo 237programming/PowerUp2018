@@ -69,7 +69,7 @@ public class AutonomousCenterLeft extends Command
     		break;
     	case bringElevatorUp:
 	    	Robot.cubeHandler.autoElevatorUp(.3);
-	    	if(Robot.cubeHandler.getEncPos() > 700)
+	    	if(Robot.cubeHandler.getEncPos() > 1000)
 	    	{
 	    		Robot.cubeHandler.offElevator();
 	    		Robot.driveTrain.disableRotateTo();
@@ -86,6 +86,7 @@ public class AutonomousCenterLeft extends Command
 	    		Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
+				Robot.cubeHandler.autoElevatorUp(.6);
 		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
 		    	Robot.driveTrain.rotateTo(0);
     			currentState = State.moveOffWall;

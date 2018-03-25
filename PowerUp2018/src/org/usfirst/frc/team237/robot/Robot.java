@@ -225,7 +225,6 @@ public class Robot extends TimedRobot
 		// if drive state reversed, reverse controls
 		if(driveState == false)	
 			driveTrain.reverseDrive(OI.driveJoystick.getY(), OI.driveJoystick.getX());
-
 		else
 			driveTrain.setDrives(OI.driveJoystick.getY(), OI.driveJoystick.getX());
 

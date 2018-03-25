@@ -19,7 +19,7 @@ public class OI
 	
 //	PlayStation controller buttons	
 	public static Button grabberOpen 		= new JoystickButton(controller, 5);
-	public static Button grabberClose 		= new JoystickButton(controller, 6);
+//	public static Button grabberClose 		= new JoystickButton(controller, 6);
 //	public static Button highElevator 		= new JoystickButton(controller, 4);
 //	public static Button switchElevator 	= new JoystickButton(controller, 1);
 //	public static Button exchangeElevator   = new JoystickButton(controller, 3);
@@ -31,6 +31,7 @@ public class OI
 	public static Button hang				= new JoystickButton(panel, 1);
 	public static Button flipUp				= new JoystickButton(panel, 3);
 	public static Button flipDown			= new JoystickButton(panel, 2);
+	public static Button grabberClose		= new JoystickButton(panel, 4);
 	
 //	Joystick buttons
 	public static Button reverseDrive 		= new JoystickButton(driveJoystick, 3);
