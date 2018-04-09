@@ -33,6 +33,12 @@ public class AutonomousCenterRight extends Command
 		moveToCubePile,
 		intakeAfterGrab,
 		turnAround,
+		bringElevatorUp2,
+		turnBackToDiagonal,
+		moveDiagonalToSwitch,
+		turnToSwitch,
+		moveToSwitch,
+		outtakeCube2,
 		finished
 	};
 	
@@ -253,10 +259,84 @@ public class AutonomousCenterRight extends Command
     			Robot.cubeHandler.offIntake();
     			Robot.driveTrain.zeroEnc();
 				Robot.driveTrain.setDrives(0, 0);
-				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
-				Robot.driveTrain.rotateTo(-179);
+//				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
+//				Robot.driveTrain.rotateTo(-179);
 				time = Timer.getFPGATimestamp();
-				currentState = State.turnAround;
+				currentState = State.bringElevatorUp2;
+    		}
+    		break;
+    	case bringElevatorUp2:
+    		Robot.cubeHandler.upElevator();
+    		if(Robot.cubeHandler.getEncPos() > 10000)
+    		{
+    			Robot.cubeHandler.offElevator();
+	    		Robot.driveTrain.disableRotateTo();
+	    		Robot.driveTrain.zeroEnc();
+	    		Robot.driveTrain.setDrives(0, 0);
+				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
+				Robot.driveTrain.rotateTo(50);
+				time = Timer.getFPGATimestamp();
+				currentState = State.turnBackToDiagonal;
+    		}
+    		break;
+    	case turnBackToDiagonal:
+    		Robot.driveTrain.pidDrive(0);
+    		if(Timer.getFPGATimestamp() > time + 1)
+    		{
+    			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
+		    	Robot.driveTrain.rotateTo(50);
+    			currentState = State.moveDiagonalToSwitch;
+    		}
+    		break;
+    	case moveDiagonalToSwitch:
+    		Robot.driveTrain.pidDrive(-.5);
+    		if(Robot.driveTrain.getEncPos() > 2500)
+    		{
+    			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
+		    	Robot.driveTrain.rotateTo(0);
+		    	time = Timer.getFPGATimestamp();
+    			currentState =  State.turnToSwitch;
+    		}
+    		break;
+    	case turnToSwitch:
+    		Robot.driveTrain.pidDrive(0);
+    		if(Timer.getFPGATimestamp() > time + .5)
+    		{
+    			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+		    	Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
+		    	Robot.driveTrain.rotateTo(0);
+    			currentState = State.moveToSwitch;
+    		}
+    		break;
+    	case moveToSwitch:
+    		Robot.driveTrain.pidDrive(-.5);
+    		if(Robot.driveTrain.getEncPos() > 1000)
+    		{
+    			Robot.driveTrain.disableRotateTo();
+				Robot.driveTrain.zeroEnc();
+				Robot.driveTrain.setDrives(0, 0);
+    			time = Timer.getFPGATimestamp();
+    			currentState =  State.finished;
+    		}
+    		break;
+    	case outtakeCube2:
+    		Robot.cubeHandler.setOuttake(-.5);
+    		if(Timer.getFPGATimestamp() > time + 1)
+    		{
+    			Robot.cubeHandler.offIntake();
+    			Robot.cubeHandler.actuate(true);
+    			Robot.driveTrain.disableRotateTo();
+    			Robot.driveTrain.zeroEnc();
+    			Robot.driveTrain.setDrives(0, 0);
+    			currentState = State.finished;
     		}
     		break;
     	case turnAround:
