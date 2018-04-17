@@ -177,7 +177,7 @@ public class AutonomousLeftLeft extends Command
     		break;
     	case movePastSwitch:
     		Robot.driveTrain.pidDrive(-.8);
-    		if(Robot.driveTrain.getEncPos() > 4500)
+    		if(Robot.driveTrain.getEncPos() > 5500)
     		{
     			Robot.cubeHandler.offElevator();
     			Robot.driveTrain.disableRotateTo();
@@ -203,7 +203,7 @@ public class AutonomousLeftLeft extends Command
     		break;
     	case moveToSwitchAgain:
     		Robot.driveTrain.pidDrive(-.5);
-    		if(Robot.driveTrain.getEncPos() > 2000)
+    		if(Robot.driveTrain.getEncPos() > 2500)
     		{
     			Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();

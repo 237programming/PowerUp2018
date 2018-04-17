@@ -203,7 +203,7 @@ public class AutonomousRightRight extends Command
     		break;
     	case moveToSwitchAgain:
     		Robot.driveTrain.pidDrive(-.5);
-    		if(Robot.driveTrain.getEncPos() > 2000)
+    		if(Robot.driveTrain.getEncPos() > 2500)
     		{
     			Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
