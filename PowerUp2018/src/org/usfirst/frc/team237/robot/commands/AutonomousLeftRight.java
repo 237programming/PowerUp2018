@@ -88,11 +88,11 @@ public class AutonomousLeftRight extends Command
 	    	 	currentState = State.movePastSwitch;
 	    	}
 		case movePastSwitch:
-			if(Robot.driveTrain.getEncPos() > 11000)
-				Robot.driveTrain.pidDrive(-.5);
-			else
+//			if(Robot.driveTrain.getEncPos() > 11000)
+//				Robot.driveTrain.pidDrive(-.5);
+//			else
 				Robot.driveTrain.pidDrive(-.8);
-			if(Robot.driveTrain.getEncPos() > 15000)
+			if(Robot.driveTrain.getEncPos() > 9500)
 			{
 				Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
@@ -100,7 +100,7 @@ public class AutonomousLeftRight extends Command
 				Robot.driveTrain.setPIDValues(RobotMap.turnP, RobotMap.turnI, RobotMap.turnD);
 		    	Robot.driveTrain.rotateTo(90);
 		    	time = Timer.getFPGATimestamp();
-				currentState = State.turn90ForLongMove;
+				currentState = State.finished;
 			}
 			break;
 		case turn90ForLongMove:

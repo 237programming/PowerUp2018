@@ -136,7 +136,7 @@ public class AutonomousLeftLeft extends Command
 				Robot.driveTrain.setPIDValues(RobotMap.driveP, RobotMap.driveI, RobotMap.driveD);
 				Robot.driveTrain.rotateTo(90);
 				time = Timer.getFPGATimestamp();
-		    	currentState = State.backAwayFromSwitch;
+		    	currentState = State.finished;
     		}
     		break;
     	case backAwayFromSwitch:
