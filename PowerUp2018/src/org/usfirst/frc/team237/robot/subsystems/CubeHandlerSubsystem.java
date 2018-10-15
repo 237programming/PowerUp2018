@@ -147,7 +147,7 @@ public class CubeHandlerSubsystem extends Subsystem
 		{
 			if(Timer.getFPGATimestamp() > time + 2)
 			{
-				offIntake();
+	 			offIntake();
 				autoStatus = false;
 				//stop timer?
 			}

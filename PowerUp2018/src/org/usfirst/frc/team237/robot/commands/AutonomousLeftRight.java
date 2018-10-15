@@ -92,7 +92,7 @@ public class AutonomousLeftRight extends Command
 //				Robot.driveTrain.pidDrive(-.5);
 //			else
 				Robot.driveTrain.pidDrive(-.8);
-			if(Robot.driveTrain.getEncPos() > 9500)
+			if(Robot.driveTrain.getEncPos() > 3000)  
 			{
 				Robot.driveTrain.disableRotateTo();
 				Robot.driveTrain.zeroEnc();
@@ -101,7 +101,7 @@ public class AutonomousLeftRight extends Command
 		    	Robot.driveTrain.rotateTo(90);
 		    	time = Timer.getFPGATimestamp();
 				currentState = State.finished;
-			}
+			} 
 			break;
 		case turn90ForLongMove:
 			Robot.driveTrain.pidDrive(0);

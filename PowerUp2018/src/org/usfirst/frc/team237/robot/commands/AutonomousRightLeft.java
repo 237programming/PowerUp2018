@@ -94,7 +94,7 @@ public class AutonomousRightLeft extends Command
 //				Robot.driveTrain.pidDrive(-.5);
 //			else
 				Robot.driveTrain.pidDrive(-.8);
-			if(Robot.driveTrain.getEncPos() > 9500)
+			if(Robot.driveTrain.getEncPos() > 3000)
 			{
 				Robot.cubeHandler.offElevator();
 				System.out.println(Robot.driveTrain.getEncPos());
